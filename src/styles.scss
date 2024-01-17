@@ -1,0 +1,12 @@
+:root{
+    --primary-color:#89cff0;
+    --secondary-color:white;
+    --admin-sidebar-width:300px
+}
+
+@mixin input-shadow{
+    border-top: 1px solid rgb(170, 14, 14);
+
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.394); 
+  border-radius: 1rem;
+}
