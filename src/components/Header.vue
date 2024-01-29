@@ -33,19 +33,19 @@ export default {
         
         <div v-if="showMenu" class="navs basis-3/5 md:flex md:float-right">
           <router-link
-            class="nav shadow-lg flex justify-center items-center flex-1 m-1 text-center rounded-xl text-lg "
+            class="nav  flex justify-center items-center flex-1 m-1 text-center  text-lg "
             :to="{ path: '/' }"
           >
             <div class="text-center">Главная</div>
           </router-link>
           <router-link
-            class="nav shadow-lg flex justify-center items-center flex-1 m-1 text-center rounded-xl text-lg"
+            class="nav  flex justify-center items-center flex-1 m-1 text-center  text-lg"
             :to="{ path: '/' }"
           >
             <div class="text-center">О нас</div>
           </router-link>
           <router-link
-            class="nav shadow-lg flex justify-center items-center flex-1 m-1 text-center rounded-xl text-lg"
+            class="nav  flex justify-center items-center flex-1 m-1 text-center  text-lg"
             :to="{ path: '/' }"
           >
             <div class="text-center">Отзывы</div>

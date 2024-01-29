@@ -4,7 +4,9 @@ export default {
   name: "request-app",
   data() {
     return {
+      
       requests: [],
+      intervalId:null,
     };
   },
   methods: {
@@ -23,27 +25,42 @@ export default {
     },
   },
   mounted() {
-    // setInterval(() => {
+    this.getRequests();
+    
+    // this.intervalId = setInterval(() => {
     //   this.getRequests();
     // }, 3000);
+  },
+  beforeDestroy() {
+    // Clear the interval when the component is about to be destroyed
+    clearInterval(this.intervalId);
   },
 };
 </script>
 
 <template>
   <div class="requests mx-auto  mx-2 p-2">
+    <!-- <div class="backBut">
+      <button @click="$router.go(-1)">Назад</button>
+    </div> -->
     <h1 class="text-center text-2xl font-bold my-3">Запросы</h1>
-    <div class="request flex">
-      <div class="name flex justify-center items-center basis-2/6">
+    <div class="request flex mt-10">
+      <div class="name flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">Имя</div>
       </div>
-      <div class="inn flex justify-center items-center basis-2/6">
+      <div class="inn flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">ИИН</div>
       </div>
-      <div class="number flex justify-center items-center basis-2/6">
+      <div class="number flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">Номер телефона</div>
       </div>
-      <div class="action flex justify-center items-center basis-2/6">
+      <div class="number flex justify-center items-center basis-1/6">
+        <div class="text-center font-bold">День</div>
+      </div>
+      <div class="number flex justify-center items-center basis-1/6">
+        <div class="text-center font-bold">Время</div>
+      </div>
+      <div class="action flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">Действие</div>
       </div>
     </div>
@@ -52,22 +69,32 @@ export default {
       v-for="request in requests"
       :key="request.id"
     >
-      <div class="name flex justify-center items-center basis-2/6">
+      <div class="name flex justify-center items-center basis-1/6">
         <div class="text-center">
           {{ request.name }}
         </div>
       </div>
-      <div class="inn flex justify-center items-center basis-2/6">
+      <div class="inn flex justify-center items-center basis-1/6">
         <div class="text-center">
           {{ request.iin }}
         </div>
       </div>
-      <div class="number flex justify-center items-center basis-2/6">
+      <div class="number flex justify-center items-center basis-1/6">
         <div class="text-center">
           {{ request.number }}
         </div>
       </div>
-      <div class="action flex justify-center items-center basis-2/6">
+      <div class="day flex justify-center items-center basis-1/6">
+        <div class="text-center">
+          {{ request.day }}
+        </div>
+      </div>
+      <div class="time flex justify-center items-center basis-1/6">
+        <div class="text-center">
+          {{ request.time }}
+        </div>
+      </div>
+      <div class="action flex justify-center items-center basis-1/6">
         <div
           class="action text-center text-sm basis-1/5 mx-2 flex justify-center items-center"
         >
@@ -91,4 +118,14 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.backBut{
+  button{
+    background-color: cadetblue;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  
+ 
+}
+</style>

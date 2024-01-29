@@ -20,6 +20,7 @@ export default {
       let loginSuccess;
       if (this.username == "admin" && this.password == "admin") {
         loginSuccess = true;
+        localStorage.setItem("authToken",12313)
       } else {
         this.error = true;
         return;

@@ -52,7 +52,7 @@ isAdmin() {
 
 <template>
   <div class="">
-    <header v-if="!isAdmin()" class="m-4 p-2 shadow-lg rounded-lg">
+    <header v-if="!isAdmin()" class=" shadow-lg rounded-lg">
       <Header />
     </header>
     <div v-if="isAdminRoute()" class="sideBar">
@@ -75,6 +75,6 @@ $primary: var(--primary-color);
 }
 .adminSideBar {
   margin-left: calc(var(--admin-sidebar-width) );
-  padding: 1.5rem;
+  
 }
 </style>

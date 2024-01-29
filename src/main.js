@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './routes/index';
 import './index.css'
+
 // import BootstrapVue from 'bootstrap-vue';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -16,7 +17,8 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 
-import VCalendar from 'v-calendar';
+
+import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 
 
@@ -27,7 +29,12 @@ import './styles.scss'
 const app = createApp(App);
 
 app.component('VueDatePicker', VueDatePicker);
-app.use(VCalendar, {})
+
+
+app.use(setupCalendar, {})
+
+app.component('VCalendar', Calendar)
+app.component('VDatePicker', DatePicker)
 
 const vuetify = createVuetify({
   components,

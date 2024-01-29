@@ -14,11 +14,13 @@ export default {
   data() {
     return {
       info: "",
-      formToggle:false,
+      formToggle: false,
 
-      name:'',
-      iin:'',
-      number:''
+      formObject: {
+        name: "",
+        iin: "",
+        number: "",
+      },
     };
   },
   methods: {
@@ -28,7 +30,7 @@ export default {
       );
       this.info = data.data.items[0];
       this.info.images = this.info.images.split(",");
-      this.info.booked_date = this.info.booked_date.split("-");
+      // this.info.booked_date = this.info.booked_date.split("-");
 
       var map;
 
@@ -37,25 +39,33 @@ export default {
           center: [43.238366, 76.924189],
           zoom: 11,
         });
-        
+
         let cord = data.data.items[0].coordinates.split(",");
-        
+
         DG.marker(cord).addTo(map);
       });
     },
-    async sendRequest(){
-      const result = await axios.post(`http://localhost:3000/api/v1/requests`,{
-          name:this.name,
-          iin:this.iin,
-          number:this.number
-      });
-      console.log(result);
+    async sendRequest() {
+      try {
+        console.log(this.formObject)
+        const result = await axios.post(
+          `http://localhost:3000/api/v1/requests`,
+          this.formObject
+        );
+        (this.formObject = {
+          name: "",
+          iin: "",
+          number: "",
+        }),
+          console.log(result);
+      } catch (err) {
+        console.log(err);
+      }
       // alert(result)
-    }
+    },
   },
   mounted() {
     this.getInfo();
-    
   },
 };
 </script>
@@ -93,20 +103,25 @@ export default {
           {{ info.price }} в сутки
         </div>
         <div class="rent m-2 p-3 text-xl font-bold">
-          <div class="free flex justify-center" v-if="info.status === 'free'">
+          <div class="free flex justify-center" v-if="info.status === 1">
             <div class="freesp flex justify-center items-center">
-              <div class="w-5 h-5 bg-green-600 rounded-full text-center m-2 "> </div>
-            </div> 
+              <div
+                class="w-5 h-5 bg-green-600 rounded-full text-center m-2"
+              ></div>
+            </div>
             <div class="freetxt text-center m-2">Свободен</div>
           </div>
-          <div class="booked flex justify-center" v-if="info.status ==='booked'">
+          <div class="booked flex justify-center" v-if="info.status === 0">
             <div class="bookedsp flex justify-center items-center">
-              <div class="w-5 h-5 bg-red-600 rounded-full  text-center m-2"> </div>
-            </div> 
+              <div
+                class="w-5 h-5 bg-red-600 rounded-full text-center m-2"
+              ></div>
+            </div>
             <div class="bookedtxt text-center m-2">Забронирован</div>
           </div>
-          <div v-if="info.status === 'booked'" class="txt text-center ">Освободится {{this.info.booked_date[1]}}</div>
-          
+          <!-- <div v-if="info.status === 'booked'" class="txt text-center ">Освободится 
+            {{this.info.booked_date[1]}} 
+          </div> -->
         </div>
       </div>
     </div>
@@ -119,12 +134,15 @@ export default {
           >
             Звонить
           </div>
-          <div v-if="info.status == 'free'" @click="formToggle = !formToggle" 
+          <div
+            v-if="info.status == 1"
+            @click="formToggle = !formToggle"
             class="but flex-1 p-4 m-2 bg-red-500 text-white text-center rounded-lg"
           >
             Забронировать
           </div>
-          <div v-if="info.status == 'booked'" 
+          <div
+            v-if="info.status == 0"
             class="but flex-1 p-4 m-2 bg-gray-500 text-white text-center rounded-lg"
           >
             Забронировать
@@ -137,15 +155,42 @@ export default {
         </div>
         <div v-if="formToggle" class="format">
           <div class="inps flex my-5">
-            <div class="basis-2/6 border-2 rounded-e-lg "> <input class="w-full p-2" v-model="name" type="text" name="" id="" placeholder="Имя">
+            <div class="basis-2/6 border-2 rounded-e-lg">
+              <input
+                class="w-full p-2"
+                v-model="formObject.name"
+                type="text"
+                name=""
+                id=""
+                placeholder="Имя"
+              />
             </div>
-            <div class="basis-2/6 border-2 rounded-e-lg "> <input class="w-full p-2" v-model="iin" type="text" name="" id="" placeholder="ИИН">
+            <div class="basis-2/6 border-2 rounded-e-lg">
+              <input
+                class="w-full p-2"
+                v-model="formObject.iin"
+                type="text"
+                name=""
+                id=""
+                placeholder="ИИН"
+              />
             </div>
-            <div class="basis-2/6 border-2 rounded-lg "> <input class="w-full p-2" v-model="number" type="text"  name="" id="" placeholder="Номер телефона">
+            <div class="basis-2/6 border-2 rounded-lg">
+              <input
+                class="w-full p-2"
+                v-model="formObject.number"
+                type="text"
+                name=""
+                id=""
+                placeholder="Номер телефона"
+              />
             </div>
           </div>
-          <div @click="sendRequest()"  class="sub text-center font-bold text-xl mt-5 bg-white shadow-lg rounded-lg w-64 mx-auto py-5 border-2">
-              Отправить
+          <div
+            @click="sendRequest()"
+            class="sub text-center font-bold text-xl mt-5 bg-white shadow-lg rounded-lg w-64 mx-auto py-5 border-2"
+          >
+            Отправить
           </div>
         </div>
       </div>
@@ -157,17 +202,16 @@ export default {
   </div>
 </template>
 <style scoped>
-
-.freesp{
+.freesp {
   animation: pulse 2s infinite;
 }
-.bookedsp{
+.bookedsp {
   animation: pulse 2s infinite;
 }
-.but{
+.but {
   cursor: pointer;
 }
-.sub{
+.sub {
   cursor: pointer;
 }
 

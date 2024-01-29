@@ -36,12 +36,12 @@ export default {
   methods: {
     async getRooms() {
       const result = await axios.get("http://localhost:3000/api/v1/rooms");
-      console.log(result.data);
+      
       this.rooms = result.data.items;
-
+      console.log(this.rooms);
       this.rooms.map((e) => {
         e.small_images = e.small_images.split(",");
-        console.log(e.images);
+        // console.log(e.images);
       });
     },
     handleDate([startDate, endDate]) {
@@ -252,13 +252,13 @@ export default {
             <div class="location p-2 text-center">{{ room.location }}</div>
             <div class="price p-2 text-right">{{ room.price }} тг</div>
             <div
-              v-if="room.status === 'free'"
+              v-if="room.status === 1"
               class="price p-2 text-right font-bold text-green-500"
             >
               Свободно
             </div>
             <div
-              v-if="room.status === 'booked'"
+              v-if="room.status === 0"
               class="price p-2 text-right font-bold text-red-700"
             >
               Занято
