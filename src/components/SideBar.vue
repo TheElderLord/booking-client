@@ -27,6 +27,12 @@ export default {
             icon: 'fa fa-chart-area',
            
           },
+          {
+            href: '/admin/list',
+            title: 'Список',
+            icon: 'fa fa-chart-area',
+           
+          },
         ],
       }
     },

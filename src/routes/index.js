@@ -7,6 +7,7 @@ import Rooms from '../views/Rooms.vue';
 import Users from '../views/Users.vue';
 import Requests from '../views/Requests.vue';
 import RoomAdmin from '../views/RoomAdmin.vue';
+import RoomList from '../views/RoomsList.vue';
 
 
 import store from '../store/index';
@@ -63,6 +64,12 @@ const router = createRouter({
             path: '/admin/users',
             name: 'users',
             component: Users,
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/admin/list',
+            name: 'list',
+            component: RoomList,
             meta: { requiresAuth: true },
         },
 

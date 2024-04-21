@@ -23,12 +23,12 @@ const bookingDate = ref("");
 const search = ref("");
 
 const headers = ref([
-  { title: "Полное имя",align:'', key: "fullname" },
-  { title: "ИИН",align:'end', key: "iin" },
-  { title: "Начало брони",align:'end', key: "startDate" },
-  { title: "Конец брони",align:'end', key: "endDate" },
-  { title: "Комментарии",align:'end', key: "comments" },
-  { title: "Статус",align:'end', key: "status" },
+  { title: "Полное имя",align:'center', key: "fullname" },
+  { title: "ИИН",align:'center', key: "iin" },
+  { title: "Начало брони",align:'center', key: "startDate" },
+  { title: "Конец брони",align:'center', key: "endDate" },
+  // { title: "Комментарии",align:'end', key: "comments" },
+  { title: "Статус",align:'center', key: "status" },
 ]);
 
 // const headers = ref([
@@ -100,7 +100,7 @@ const getInfo = async () => {
     );
     // console.log(data);
     info.value = data.items[0];
-    info.value.images = info.value.images.split(",");
+    info.value.small_images = info.value.small_images.split(",");
 
     getBookHistory();
   } catch (error) {
@@ -253,31 +253,38 @@ onMounted(() => {
       <div class="backBut">
         <button @click="$router.go(-1)">Назад</button>
       </div>
-      <div class="headerText text-center">
-        {{ info.title }}
-      </div>
+      
     </header>
     <div class="mainBody container text-center mt-4">
-      <div class="carousel py-3 flex mt-10 bg-blue-100">
+      
+      <div class="carousel py-3 flex mt-10 ">
+        <!-- <v-carousel   progress="primary">
+          <v-carousel-item
+            v-for="(item, i) in info.images"
+            :key="i"
+            :src="'http://localhost:3000/images/' + item"
+          >
+          </v-carousel-item>
+        </v-carousel> -->
         <carousel
-          :items-to-show="1.5"
-          style="width: 60%; height: 50%"
-          class="basis-3/5"
-        >
-          <slide v-for="slide in info.images" :key="slide.id">
-            <img
-              :src="'http://localhost:3000/images/' + slide"
-              alt=""
-              class=""
-            />
-          </slide>
+        :items-to-show="1"
+        style="width: 60%; height: 50%"
+        class="basis-3/5"
+      >
+        <slide v-for="slide in info.small_images" :key="slide.id">
+          <img :src="'http://localhost:3000/images/' + slide" alt="" class="" />
+        </slide>
 
-          <template #addons>
-            <navigation />
-            <pagination />
-          </template>
-        </carousel>
-        <div class="info basis-2/5 flex flex-wrap flex-col">
+        <template #addons>
+          <navigation />
+          <pagination />
+        </template>
+      </carousel>
+      </div>
+        <div class="info basis-2/5 ">
+          <div class="headerText text-center font-bold">
+            {{ info.title }}
+          </div>
           <div class="rent m-2 p-3">Адрес:{{ info.location }}</div>
           <div class="rent m-2 p-3">Комнат:{{ info.amount }}</div>
           <div class="rent m-2 p-3">
@@ -291,7 +298,7 @@ onMounted(() => {
           <div class="rent m-2 p-3">Условия:{{ info.conditions }}</div>
           <div class="rent m-2 p-3">{{ info.price }} в сутки</div>
         </div>
-      </div>
+      
 
       <div class="rentControl bg-slate-400 p-5">
         <div class="booking">
@@ -396,6 +403,15 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+*{
+  a{
+    text-decoration: none;
+    color: black;
+  }
+}
+.carousel{
+  margin: 0 auto;
+}
 .backBut {
   button {
     background-color: var(--primary-color);

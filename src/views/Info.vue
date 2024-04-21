@@ -1,85 +1,24 @@
-<script>
-import "vue3-carousel/dist/carousel.css";
-import axios from "axios";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-export default {
-  props: ["id"],
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-    Navigation,
-  },
-  setup() {},
-  data() {
-    return {
-      info: "",
-      formToggle: false,
+<script src="./script/info">
 
-      formObject: {
-        name: "",
-        iin: "",
-        number: "",
-      },
-    };
-  },
-  methods: {
-    async getInfo() {
-      const data = await axios.get(
-        `http://localhost:3000/api/v1/rooms/${this.id}`
-      );
-      this.info = data.data.items[0];
-      this.info.images = this.info.images.split(",");
-      // this.info.booked_date = this.info.booked_date.split("-");
-
-      var map;
-
-      DG.then(function () {
-        map = DG.map("map", {
-          center: [43.238366, 76.924189],
-          zoom: 11,
-        });
-
-        let cord = data.data.items[0].coordinates.split(",");
-
-        DG.marker(cord).addTo(map);
-      });
-    },
-    async sendRequest() {
-      try {
-        console.log(this.formObject)
-        const result = await axios.post(
-          `http://localhost:3000/api/v1/requests`,
-          this.formObject
-        );
-        (this.formObject = {
-          name: "",
-          iin: "",
-          number: "",
-        }),
-          console.log(result);
-      } catch (err) {
-        console.log(err);
-      }
-      // alert(result)
-    },
-  },
-  mounted() {
-    this.getInfo();
-  },
-};
 </script>
 <template>
   <div class="mx-auto">
     <div class="title text-center text-2xl m-3">{{ info.title }}</div>
-    <div class="carousel m-4 p-3 flex mt-10">
+    <div class="carousel mx-0   mt-10">
+      <!-- <v-carousel height="500" progress="primary" hide-delimiter-background="false" >
+        <v-carousel-item
+          v-for="(item, i) in info.images"
+          :key="i"
+          :src="'http://localhost:3000/images/' + item"
+        >
+        </v-carousel-item>
+      </v-carousel> -->
       <carousel
-        :items-to-show="1.5"
-        style="width: 60%; height: 50%"
-        class="basis-3/5"
+        :items-to-show="1"
+        class="car "
       >
-        <slide v-for="slide in info.images" :key="slide.id">
-          <img :src="'http://localhost:3000/images/' + slide" alt="" class="" />
+        <slide v-for="slide in info.small_images" :key="slide.id">
+          <img  :src="'http://localhost:3000/images/' + slide" alt="" class="" />
         </slide>
 
         <template #addons>
@@ -87,7 +26,9 @@ export default {
           <pagination />
         </template>
       </carousel>
-      <div class="info basis-2/5 flex flex-wrap flex-col">
+      </div>
+
+      <div class="info  grid grid-cols-2 ">
         <div class="rent m-2 p-3">Адрес:{{ info.location }}</div>
         <div class="rent m-2 p-3">Комнат:{{ info.amount }}</div>
         <div class="rent m-2 p-3">
@@ -99,32 +40,34 @@ export default {
         <div class="rent m-2 p-3">Количество кроватей:{{ info.bed_num }}</div>
         <div class="rent m-2 p-3">Количество людей:{{ info.people_num }}</div>
         <div class="rent m-2 p-3">Условия:{{ info.conditions }}</div>
-        <div class="rent m-2 p-3 text-3xl font-bold">
+        
+       
+      </div>
+      <div class="  text-xl font-bold">
+        <div class="  text-3xl font-bold text-center">
           {{ info.price }} в сутки
         </div>
-        <div class="rent m-2 p-3 text-xl font-bold">
-          <div class="free flex justify-center" v-if="info.status === 1">
-            <div class="freesp flex justify-center items-center">
-              <div
-                class="w-5 h-5 bg-green-600 rounded-full text-center m-2"
-              ></div>
-            </div>
-            <div class="freetxt text-center m-2">Свободен</div>
+        <div class="free flex justify-center" v-if="info.status === 1">
+          <div class="freesp flex justify-center items-center">
+            <div
+              class="w-5 h-5 bg-green-600 rounded-full text-center m-2"
+            ></div>
           </div>
-          <div class="booked flex justify-center" v-if="info.status === 0">
-            <div class="bookedsp flex justify-center items-center">
-              <div
-                class="w-5 h-5 bg-red-600 rounded-full text-center m-2"
-              ></div>
-            </div>
-            <div class="bookedtxt text-center m-2">Забронирован</div>
-          </div>
-          <!-- <div v-if="info.status === 'booked'" class="txt text-center ">Освободится 
-            {{this.info.booked_date[1]}} 
-          </div> -->
+          <div class="freetxt text-center m-2">Свободен</div>
         </div>
+        <div class="booked flex justify-center" v-if="info.status === 0">
+          <div class="bookedsp flex justify-center items-center">
+            <div
+              class="w-5 h-5 bg-red-600 rounded-full text-center m-2"
+            ></div>
+          </div>
+          <div class="bookedtxt text-center m-2">Забронирован</div>
+        </div>
+        <!-- <div v-if="info.status === 'booked'" class="txt text-center ">Освободится 
+          {{this.info.booked_date[1]}} 
+        </div> -->
       </div>
-    </div>
+    <!-- </div> -->
     <div class="infos flex">
       <div class="mainInfo basis-3/5 m-2 p-5">
         <h5>{{ info.description }}</h5>
@@ -168,6 +111,16 @@ export default {
             <div class="basis-2/6 border-2 rounded-e-lg">
               <input
                 class="w-full p-2"
+                v-model="formObject.lastname"
+                type="text"
+                name=""
+                id=""
+                placeholder="Фамилия"
+              />
+            </div>
+            <div class="basis-2/6 border-2 rounded-e-lg">
+              <input
+                class="w-full p-2"
                 v-model="formObject.iin"
                 type="text"
                 name=""
@@ -201,7 +154,23 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
+<style lang="scss">
+.info{
+  margin: 0 auto;
+  div{
+    text-align: center;
+  }
+}
+
+.carousel{
+  margin: 0 auto;
+  .car{
+    width: 60%;
+    img{
+      width: 100%;
+    }
+  }
+}
 .freesp {
   animation: pulse 2s infinite;
 }
@@ -224,6 +193,31 @@ export default {
   }
   100% {
     transform: scale(1);
+  }
+}
+@media screen and (max-width: 640px) {
+  .infos{
+    display: block!important;
+  }
+  .carousel{
+    margin: 0 auto;
+    .car{
+      width: 100%;
+      img{
+        width: 100%;
+      }
+    }
+  }
+  .info{
+    display: block;
+    padding: 0 auto;
+  }
+  .mainInfo{
+    margin: 0;
+    .buttons{
+      margin: 0;
+      display: block;
+    }
   }
 }
 </style>
