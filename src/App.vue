@@ -1,42 +1,20 @@
 <script>
 import Header from "./components/Header.vue";
-import { SidebarMenu } from "vue-sidebar-menu";
+
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+
+import AdminHeaderVue from './components/AdminHeader.vue';
 export default {
   name: "App",
   components: {
     Header,
-    SidebarMenu,
+    
+    AdminHeaderVue
   },
 
   data() {
     return {
-      menu: [
-        {
-          header: "Навигационный панель",
-          hiddenOnCollapse: true,
-        },
-        {
-          href: "/admin/requests",
-          title: "Заявки",
-          // icon: "fa fa-user",
-        },
-        {
-          href: "/admin/rooms",
-          title: "Квартиры",
-          // icon: "fa fa-chart-area",
-        },
-        {
-          href: "/admin/users",
-          title: "Пользователи",
-          // icon: "fa fa-chart-area",
-        },
-        {
-          href: "/admin/list",
-          title: "Список",
-          // icon: "fa fa-chart-area",
-        },
-      ],
+     
     };
   },
   methods: {
@@ -61,9 +39,9 @@ isAdmin() {
       <Header />
     </header>
     <div v-if="isAdminRoute()" class="sideBar">
-      <sidebar-menu :menu="menu" width="300px" hideToggle="true" />
+      <AdminHeaderVue/>
     </div>
-    <div :class="{ adminSideBar: isAdminRoute() }" class="main">
+    <div class="main">
       <router-view />
     </div>
   </div>
@@ -74,12 +52,12 @@ $primary: var(--primary-color);
 * {
   overflow: hidden;
 }
-.sideBar {
-  position: relative;
-  width: fit-content;
-}
+
 .adminSideBar {
   margin-left: calc(var(--admin-sidebar-width) );
   
+}
+@media screen and (max-width: 640px) {
+ 
 }
 </style>

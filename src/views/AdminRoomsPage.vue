@@ -45,7 +45,7 @@
         v-for="room in rooms"
         :key="room.id"
         class="room flex border-2 rounded-lg m-2 p-4 border-black"
-        :style="getStyle(room.status)"
+        
       >
         <router-link
           class="flex w-4/5"

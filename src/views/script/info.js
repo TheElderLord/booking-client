@@ -26,8 +26,9 @@ export default {
   methods: {
     async getInfo() {
       const data = await axios.get(
-        `http://localhost:3000/api/v1/rooms/${this.id}`
+        `http://localhost:3000/api/v1/rooms/list/${this.id}`
       );
+      console.log(data.data);
       this.info = data.data.items[0];
       this.info.images = this.info.images.split(",");
       this.info.small_images = this.info.small_images.split(",");
@@ -50,7 +51,7 @@ export default {
       try {
         console.log(this.formObject)
         const result = await axios.post(
-          `http://localhost:3000/api/v1/requests`,
+          `http://localhost:3000/api/v1/rooms/request`,
           this.formObject
         );
         (this.formObject = {

@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Main from '../views/Main.vue';
 import Info from '../views/Info.vue';
-import Admin from '../views/Admin.vue';
 
-import Rooms from '../views/Rooms.vue';
-import Users from '../views/Users.vue';
-import Requests from '../views/Requests.vue';
-import RoomAdmin from '../views/RoomAdmin.vue';
+
+import Admin from '../views/AdminLoginPage.vue';
+import Rooms from '../views/AdminRoomsPage.vue';
+import Users from '../views/AdminUsersPage.vue';
+import Requests from '../views/AdminRequestsPage.vue';
+import RoomAdmin from '../views/AdminRoomDetailPage.vue';
+
 import RoomList from '../views/RoomsList.vue';
 
 
@@ -49,9 +51,7 @@ const router = createRouter({
                 requiresAuth: true,
 
             },
-            props: route => ({
-                id: route.params.id
-            })
+            props: (route) => ({ id: route.params.id }),
         },
 
         {

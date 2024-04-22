@@ -5,6 +5,7 @@ import { useScreens } from "vue-screen-utils";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import { useRoute } from "vue-router";
 
 // const components = {
 //   Carousel,
@@ -12,6 +13,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 //     Pagination,
 //     Navigation,
 // }
+const route = useRoute();
 
 const props = defineProps(["id"]);
 
@@ -96,7 +98,7 @@ const attributes = ref([]);
 const getInfo = async () => {
   try {
     const { data } = await axios.get(
-      `http://localhost:3000/api/v1/rooms/${props.id}`
+      `http://localhost:3000/api/v1/admin/rooms/${props.id}`
     );
     // console.log(data);
     info.value = data.items[0];
@@ -111,7 +113,7 @@ const getInfo = async () => {
 const getBookHistory = async () => {
   try {
     const { data } = await axios.get(
-      `http://localhost:3000/api/v1/rooms/bookHistory/${props.id}`
+      `http://localhost:3000/api/v1/admin/rooms/bookHistory/${props.id}`
     );
     console.log(data);
     bookHistory.value = data.items;
@@ -175,7 +177,7 @@ const initDate = async () => {
 const setFree = async (id) => {
   try {
     const result = await axios.put(
-      `http://localhost:3000/api/v1/rooms/book/${id}`
+      `http://localhost:3000/api/v1/admin/rooms/book/${id}`
     );
     // rooms.value.find((e) => e.id == id).status = "free";
     // rooms.value.find((e) => e.id == id).booked_date = "";
@@ -205,7 +207,7 @@ const bookRoom = async (id) => {
     };
     console.log(bookbody);
     const result = await axios.post(
-      `http://localhost:3000/api/v1/rooms/book/${id}`,
+      `http://localhost:3000/api/v1/admin/rooms/book/${id}`,
       bookbody
     );
 

@@ -42,7 +42,7 @@ export default {
         async createUser() {
             try {
                 const result = await axios.post(
-                    `http://localhost:3000/api/v1/users`,
+                    `http://localhost:3000/api/v1/admin/users`,
                     this.userForm
                 );
                 const des = this.userForm;
@@ -66,7 +66,7 @@ export default {
         async getUsers() {
 
             try {
-                const result = await axios.get("http://localhost:3000/api/v1/users");
+                const result = await axios.get("http://localhost:3000/api/v1/admin/users");
                 const resultObject = result.data.items;
 
                 console.log(resultObject);
@@ -118,7 +118,7 @@ export default {
             try {
 
                 const result = await axios.patch(
-                    `http://localhost:3000/api/v1/users/${id}`,
+                    `http://localhost:3000/api/v1/admin/users/${id}`,
                     this.userForm
                 );
 
@@ -160,7 +160,7 @@ export default {
         async deleteUser(id) {
             try {
                 const result = await axios.delete(
-                    `http://localhost:3000/api/v1/users/${id}`
+                    `http://localhost:3000/api/v1/admin/users/${id}`
                 );
                 if (result.status === 200) {
                     // If the deletion is successful, remove the user from the desserts array

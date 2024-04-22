@@ -11,7 +11,7 @@ export default {
   methods: {
     async getHiddenCompleted() {
       const result = await axios.get(
-        `http://localhost:3000/api/v1/requests?hide=true`
+        `http://localhost:3000/api/v1/admin/requests?hide=true`
       );
       console.log(result.data);
       this.requests = result.data.items;
@@ -19,19 +19,20 @@ export default {
 
     async sendSeen(id) {
       const result = await axios.patch(
-        `http://localhost:3000/api/v1/requests/${id}`
+        `http://localhost:3000/api/v1/admin/requests/${id}`
       );
       console.log(result.data);
-      window.location.reload();
+      const element = this.requests.find(e=>e.id === id);
+      element.status = 1;
     },
     async getAllRequests() {
-      const result = await axios.get(`http://localhost:3000/api/v1/requests`);
+      const result = await axios.get(`http://localhost:3000/api/v1/admin/requests`);
       console.log(result.data);
       this.requests = result.data.items;
     },
     async getCompleted() {
       const result = await axios.get(
-        `http://localhost:3000/api/v1/requests?completed=true`
+        `http://localhost:3000/api/v1/admin/requests?completed=true`
       );
       console.log(result.data);
       this.requests = result.data.items;
@@ -149,6 +150,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.request{
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border-top: 1px solid black;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+}
 .backBut {
   button {
     background-color: cadetblue;

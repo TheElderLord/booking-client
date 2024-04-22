@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async getRooms() {
-      const result = await axios.get("http://localhost:3000/api/v1/rooms");
+      const result = await axios.get("http://localhost:3000/api/v1/admin/rooms");
       console.log(result.data);
       this.rooms = result.data.items;
 
@@ -75,7 +75,7 @@ export default {
         }
 
         // Make a POST request with FormData
-        const result = await axios.post("http://localhost:3000/api/v1/rooms", formData, {
+        const result = await axios.post("http://localhost:3000/api/v1/admin/rooms", formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -111,7 +111,7 @@ export default {
     async deleteRoom(id) {
       try {
         const result = await axios.delete(
-          `http://localhost:3000/api/v1/rooms/${id}`
+          `http://localhost:3000/api/v1/admin/rooms/${id}`
         );
         const room = this.rooms.findIndex((e) => e.id == id);
         this.rooms.splice(room, 1);
@@ -143,15 +143,15 @@ export default {
     },
   },
   computed: {
-    getStyle() {
-      return (status) => {
-        return {
-          backgroundColor:
-            status === 0 ? "rgb(170, 14, 14,0.7)" : "rgba(40, 190, 42,0.8)",
-          // Add more styles as needed
-        };
-      };
-    },
+    // getStyle() {
+    //   return (status) => {
+    //     return {
+    //       backgroundColor:
+    //         status === 0 ? "rgb(170, 14, 14,0.7)" : "rgba(40, 190, 42,0.8)",
+    //       // Add more styles as needed
+    //     };
+    //   };
+    // },
   },
   mounted() {
     this.getRooms();
