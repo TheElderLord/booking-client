@@ -25,29 +25,18 @@ const bookingDate = ref("");
 const search = ref("");
 
 const headers = ref([
-  { title: "Полное имя",align:'center', key: "fullname" },
-  { title: "ИИН",align:'center', key: "iin" },
-  { title: "Начало брони",align:'center', key: "startDate" },
-  { title: "Конец брони",align:'center', key: "endDate" },
+  { title: "Имя", align: 'center', key: "firstname" },
+  { title: "Фамилия", align: 'center', key: "lastname" },
+  { title: "ИИН", align: 'center', key: "iin" },
+  { title: "Начало брони", align: 'center', key: "startDate" },
+  { title: "Конец брони", align: 'center', key: "endDate" },
   // { title: "Комментарии",align:'end', key: "comments" },
-  { title: "Статус",align:'center', key: "status" },
+  { title: "Статус", align: 'center', key: "status" },
 ]);
 
-// const headers = ref([
-//   {
-//     align: "start",
-//     key: "fullname",
-//     sortable: false,
-//     title: "Полное имя",
-//   },
 
-//   { key: "iin", title: "ИИН" },
-//   { key: "startDate", title: "Начало брони" },
-//   { key: "endDate", title: "Конец брони" },
-//   { key: "comments", title: "Комметарии" },
-//   { key: "status", title: "Статус" },
-//   ,
-// ]);
+const users = ref([]);
+const selectedUser = ref(0);
 
 const desserts = ref([]);
 
@@ -98,16 +87,29 @@ const attributes = ref([]);
 const getInfo = async () => {
   try {
     const { data } = await axios.get(
-      `http://localhost:3000/api/v1/admin/rooms/${props.id}`
+      `http://localhost:3000/api/v1/admin/rooms/list/${props.id}`
     );
-    // console.log(data);
+    console.log(data);
     info.value = data.items[0];
     info.value.small_images = info.value.small_images.split(",");
+    info.value.images = info.value.images.split(",");
 
     getBookHistory();
   } catch (error) {
     console.error("Error getting room info:", error);
   }
+};
+const getUsers = async () => {
+
+  try {
+    const result = await axios.get("http://localhost:3000/api/v1/admin/users");
+    const resultObject = result.data.items;
+    users.value = resultObject;
+    console.log(users.value)
+  } catch (err) {
+    console.log(err);
+  }
+
 };
 
 const getBookHistory = async () => {
@@ -118,7 +120,10 @@ const getBookHistory = async () => {
     console.log(data);
     bookHistory.value = data.items;
     desserts.value = data.items;
-    console.log(desserts.value)
+    desserts.value.map(e => {
+      e.status = e.status === 1 ? "Завершен" : "Активен"
+    })
+    // console.log(desserts.value)
     // console.log(bookHistory.value);
     bookHistory.value.map((book) => {
       const startDateParts = book.startDate.split(".");
@@ -199,11 +204,13 @@ const bookRoom = async (id) => {
     return;
   }
   try {
+    console.log(selectedUser)
     const bookbody = {
-      fullname: "ElderLord",
+      firstname: selectedUser.value.name,
+      lastname: selectedUser.value.surname,
       start: bookingDate.value.start,
       end: bookingDate.value.end,
-      iin: "123123",
+      iin: selectedUser.value.iin,
     };
     console.log(bookbody);
     const result = await axios.post(
@@ -233,6 +240,8 @@ const bookRoom = async (id) => {
     attributes.value.push(newBook);
 
     info.value.status = 0;
+    selectedUser.value = 0;
+    date.value = "";
   } catch (err) {
     console.log(err);
   }
@@ -246,19 +255,20 @@ watch(info, (newInfo) => {
 onMounted(() => {
   getInfo();
   initDate();
+  getUsers();
 });
 </script>
 
 <template>
-  <div class="container">
+  <div class="">
     <header>
       <div class="backBut">
-        <button @click="$router.go(-1)">Назад</button>
+        <button @click="$router.go(-1)"><span style="font-size:36px">&#8592;</span></button>
       </div>
-      
+
     </header>
-    <div class="mainBody container text-center mt-4">
-      
+    <div class="mainBody text-center ">
+
       <div class="carousel py-3 flex mt-10 ">
         <!-- <v-carousel   progress="primary">
           <v-carousel-item
@@ -268,80 +278,56 @@ onMounted(() => {
           >
           </v-carousel-item>
         </v-carousel> -->
-        <carousel
-        :items-to-show="1"
-        style="width: 60%; height: 50%"
-        class="basis-3/5"
-      >
-        <slide v-for="slide in info.small_images" :key="slide.id">
-          <img :src="'http://localhost:3000/images/' + slide" alt="" class="" />
-        </slide>
+        <carousel :items-to-show="1" style="width:60%!important;height:50%!important">
+          <slide v-for="slide in info.small_images" :key="slide.id">
+            <img :src="'http://localhost:3000/images/' + slide" alt="" class="" />
+          </slide>
 
-        <template #addons>
-          <navigation />
-          <pagination />
-        </template>
-      </carousel>
+          <template #addons>
+            <navigation />
+            <pagination />
+          </template>
+        </carousel>
       </div>
-        <div class="info basis-2/5 ">
-          <div class="headerText text-center font-bold">
-            {{ info.title }}
-          </div>
-          <div class="rent m-2 p-3">Адрес:{{ info.location }}</div>
-          <div class="rent m-2 p-3">Комнат:{{ info.amount }}</div>
-          <div class="rent m-2 p-3">
-            Общая площадь:{{ info.square }} квад. метр.
-            <!-- Кухня {{room.kitchen_square}} -->
-          </div>
-          <div class="rent m-2 p-3">Этаж:{{ info.floor }}</div>
-          <div class="rent m-2 p-3">ЖК:{{ info.complex }}</div>
-          <div class="rent m-2 p-3">Количество кроватей:{{ info.bed_num }}</div>
-          <div class="rent m-2 p-3">Количество людей:{{ info.people_num }}</div>
-          <div class="rent m-2 p-3">Условия:{{ info.conditions }}</div>
-          <div class="rent m-2 p-3">{{ info.price }} в сутки</div>
+      <div class="info basis-2/5 ">
+        <div class="headerText text-center font-bold">
+          {{ info.title }}
         </div>
-      
+        <div class="rent m-2 p-3">Адрес:{{ info.location }}</div>
+        <div class="rent m-2 p-3">Комнат:{{ info.amount }}</div>
+        <div class="rent m-2 p-3">
+          Общая площадь:{{ info.square }} квад. метр.
+          <!-- Кухня {{room.kitchen_square}} -->
+        </div>
+        <div class="rent m-2 p-3">Этаж:{{ info.floor }}</div>
+        <div class="rent m-2 p-3">ЖК:{{ info.complex }}</div>
+        <div class="rent m-2 p-3">Количество кроватей:{{ info.bed_num }}</div>
+        <div class="rent m-2 p-3">Количество людей:{{ info.people_num }}</div>
+        <div class="rent m-2 p-3">Условия:{{ info.conditions }}</div>
+        <div class="rent m-2 p-3">{{ info.price }} в сутки</div>
+      </div>
+
 
       <div class="rentControl bg-slate-400 p-5">
         <div class="booking">
-          <VueDatePicker
-            v-model="date"
-            range
-            :clearable="false"
-            @update:model-value="handleDate"
-          />
+          <VueDatePicker v-model="date" range :clearable="false" @update:model-value="handleDate" />
           <div class="pickedDate text-xl mt-4 mx-auto text-white">
             {{ bookingDate.start }} -
             {{ bookingDate.end }}
           </div>
+          <select v-model="selectedUser" class="form-select my-2 w-1/2" aria-label="Пользователи">
+            <option selected disabled value="0">Выберите пользователя</option>
+            <option v-for="user in users" :key="user.id" :value="user">{{user.name }} {{user.surname}}</option>
+
+          </select>
         </div>
         <div class="free text-white my-2 mx-auto p-2">
-          <button
-            @click="setFree(info.id)"
-            v-if="info.status === 1"
-            class="bg-gray-600 mx-4 p-3 text-lg rounded-lg"
-          >
+
+          <!-- <button @click="setFree(info.id)" class="bg-red-600 mx-4 p-3 text-lg rounded-lg">
             Снять бронь
-          </button>
-          <button
-            @click="setFree(info.id)"
-            v-if="info.status === 0"
-            class="bg-red-600 mx-4 p-3 text-lg rounded-lg"
-          >
-            Снять бронь
-          </button>
-          <button
-            @click="bookRoom(info.id)"
-            v-if="info.status === 0"
-            class="bg-gray-600 mx-4 p-3 text-lg rounded-lg"
-          >
-            Забронировать
-          </button>
-          <button
-            @click="bookRoom(info.id)"
-            v-if="info.status === 1"
-            class="bg-green-600 mx-4 p-3 text-lg rounded-lg"
-          >
+          </button> -->
+
+          <button @click="bookRoom(info.id)" class="bg-green-600 mx-4 p-3 text-lg rounded-lg">
             Забронировать
           </button>
         </div>
@@ -363,29 +349,16 @@ onMounted(() => {
       </div>
       <div class="calendar">
         <div class="title text-center font-bold m-2 text-lg">История</div>
-        <VCalendar
-          :columns="columns"
-          :expanded="expanded"
-          :attributes="attributes"
-          locale="ru"
-        />
+        <VCalendar :columns="columns" :expanded="expanded" :attributes="attributes" locale="ru" />
 
         <div class="bookTable p-4">
           <v-card>
             <v-card-title>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
+              <v-text-field v-model="search" append-icon="mdi-magnify" label="Искать" single-line
+                hide-details></v-text-field>
             </v-card-title>
-            <v-data-table
-              :headers="headers"
-              :items="desserts"
-              :search="search"
-            >
+            <v-data-table :headers="headers" :items="desserts" :search="search" no-data-text="Нет элементов"
+              items-per-page-text="Элементов на странице">
               <template v-slot:header="{ props }">
                 <thead>
                   <tr>
@@ -398,26 +371,28 @@ onMounted(() => {
             </v-data-table>
           </v-card>
         </div>
-        
+
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-*{
-  a{
+* {
+  a {
     text-decoration: none;
     color: black;
   }
 }
-.carousel{
+
+.carousel {
   margin: 0 auto;
 }
+
 .backBut {
   button {
     background-color: var(--primary-color);
-    padding: 1rem 2rem 1rem 2rem;
+    padding: 1rem 2rem;
     border-radius: 0.5rem;
   }
 }

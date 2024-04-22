@@ -3,7 +3,7 @@
 </script>
 <template>
   <div class="mx-auto">
-    <div class="filters basis-1/5 m-4 p-4 flex flex-wrap shadow-xl rounded-xl">
+    <!-- <div class="filters basis-1/5 m-4 p-4 flex flex-wrap shadow-xl rounded-xl">
       <div class="filter search flex-1 text-center">
         <input type="text" name="" id="" placeholder="Искать" class="rounded-lg p-2 border border-gray-500"
           v-model="search" />
@@ -77,7 +77,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="headerText text-center m-4 p-2 text-3xl">Квартиры</div>
 
     <div class="room-container">

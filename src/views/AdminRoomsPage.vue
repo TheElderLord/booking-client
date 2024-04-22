@@ -41,32 +41,18 @@
         </div>
       </div> -->
 
-      <div
-        v-for="room in rooms"
-        :key="room.id"
-        class="room flex border-2 rounded-lg m-2 p-4 border-black"
-        
-      >
-        <router-link
-          class="flex w-4/5"
-          :to="{ name: 'roomInfo', params: { id: room.id } }"
-        >
-          <div
-            class="title text-center text-sm flex justify-center items-center basis-1/3"
-          >
+      <div v-for="room in rooms" :key="room.id" class="room flex  rounded-lg m-2 p-4 ">
+        <router-link class="flex w-4/5" :to="{ name: 'roomInfo', params: { id: room.id } }">
+          <div class="title text-center text-sm flex justify-center items-center basis-full">
             <div class="text-center">{{ room.title }}</div>
           </div>
-          <div
-            class="location text-center text-sm flex justify-center items-center basis-1/3"
-          >
+          <div class="location text-center text-sm flex justify-center items-center basis-full">
             <div class="text-center">{{ room.location }}</div>
           </div>
-          <div
-            class="status text-center text-sm flex justify-center items-center basis-1/3"
-          >
-            <div class="text-center">
+          <div class="status text-center text-sm flex justify-center items-center basis-1/3">
+            <!-- <div class="text-center">
               {{ room.status === "free" ? "Свободен" : "Забронирован" }}
-            </div>
+            </div> -->
           </div>
         </router-link>
         <div class="text-center del flex justify-center items-center w-1/5">
@@ -86,23 +72,10 @@
                 kitchen_square, conditions, coordinates, people_num, bed_num,
                 description -->
           <div class="image">
-            <input id="images"
-              type="file"
-              @change="handleImageChange"
-              accept="image/*"
-              multiple
-            />
+            <input id="images" type="file" @change="handleImageChange" accept="image/*" multiple />
             <div v-if="imageUrls.length > 0" class="image-previews">
-              <div
-                v-for="(imageUrl, index) in imageUrls"
-                :key="index"
-                class="image-preview-container"
-              >
-                <img
-                  :src="imageUrl"
-                  alt="Image Preview"
-                  class="image-preview"
-                />
+              <div v-for="(imageUrl, index) in imageUrls" :key="index" class="image-preview-container">
+                <img :src="imageUrl" alt="Image Preview" class="image-preview" />
                 <button @click="deleteImage(index)" class="delete-button">
                   Удалить
                 </button>
@@ -111,118 +84,43 @@
           </div>
           <div class="formInputs">
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.title"
-                name=""
-                id=""
-                placeholder="Введите заголовок"
-              />
+              <input type="text" v-model="inputForm.title" name="" id="" placeholder="Введите заголовок" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.location"
-                name=""
-                id=""
-                placeholder="Введите адрес"
-              />
+              <input type="text" v-model="inputForm.location" name="" id="" placeholder="Введите адрес" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.price"
-                name=""
-                id=""
-                placeholder="Введите цену"
-              />
+              <input type="text" v-model="inputForm.price" name="" id="" placeholder="Введите цену" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.floor"
-                name=""
-                id=""
-                placeholder="Введите этаж"
-              />
+              <input type="text" v-model="inputForm.floor" name="" id="" placeholder="Введите этаж" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.complex"
-                name=""
-                id=""
-                placeholder="Введите название ЖК"
-              />
+              <input type="text" v-model="inputForm.complex" name="" id="" placeholder="Введите название ЖК" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.amount"
-                name=""
-                id=""
-                placeholder="Введите число комнат"
-              />
+              <input type="text" v-model="inputForm.amount" name="" id="" placeholder="Введите число комнат" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.square"
-                name=""
-                id=""
-                placeholder="Введите общую площадь"
-              />
+              <input type="text" v-model="inputForm.square" name="" id="" placeholder="Введите общую площадь" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.kitchen_square"
-                name=""
-                id=""
-                placeholder="Введите площадь кухни"
-              />
+              <input type="text" v-model="inputForm.kitchen_square" name="" id="" placeholder="Введите площадь кухни" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.conditions"
-                name=""
-                id=""
-                placeholder="Введите условия"
-              />
+              <input type="text" v-model="inputForm.conditions" name="" id="" placeholder="Введите условия" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.people_num"
-                name=""
-                id=""
-                placeholder="Введите число людей"
-              />
+              <input type="text" v-model="inputForm.people_num" name="" id="" placeholder="Введите число людей" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.bed_num"
-                name=""
-                id=""
-                placeholder="Введите число кроватей"
-              />
+              <input type="text" v-model="inputForm.bed_num" name="" id="" placeholder="Введите число кроватей" />
             </div>
             <div class="w-full">
-              <input
-                type="text"
-                v-model="inputForm.description"
-                name=""
-                id=""
-                placeholder="Введите описание"
-              />
+              <input type="text" v-model="inputForm.description" name="" id="" placeholder="Введите описание" />
             </div>
             <div class="create text-center">
-              <button
-                class="py-2 px-4 bg-blue-300 m-3 rounded-lg"
-                @click="createRoom()"
-              >
+              <button class="py-2 px-4 bg-blue-300 m-3 rounded-lg" @click="createRoom()">
                 Создать
               </button>
             </div>
@@ -235,13 +133,19 @@
 </template>
 
 <style lang="scss" scoped>
-*{
-  a{
+* {
+  a {
     text-decoration: none;
     color: black;
     font-size: medium;
   }
 }
+
+.room {
+  border-top: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 .cont {
   width: 100%;
   height: 100%;
@@ -269,21 +173,22 @@
   .title {
     padding: 1rem;
   }
+
   .image-previews {
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .image-preview-container {
     position: relative;
     margin: 1px;
   }
-  
+
   .image-preview {
     max-width: 100%;
     max-height: 150px;
   }
-  
+
   .delete-button {
     position: absolute;
     top: 5px;
@@ -297,8 +202,7 @@
   }
 
   .create {
-    input[type="file"] {
-    }
+    input[type="file"] {}
 
     input[type="text"] {
       width: 100%;
@@ -341,6 +245,7 @@
     border: 1px solid black;
   }
 }
+
 .controls {
   button {
     margin: 1rem;

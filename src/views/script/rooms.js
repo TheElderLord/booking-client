@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async getRooms() {
-      const result = await axios.get("http://localhost:3000/api/v1/admin/rooms");
+      const result = await axios.get("http://localhost:3000/api/v1/admin/rooms/list");
       console.log(result.data);
       this.rooms = result.data.items;
 
@@ -75,7 +75,7 @@ export default {
         }
 
         // Make a POST request with FormData
-        const result = await axios.post("http://localhost:3000/api/v1/admin/rooms", formData, {
+        const result = await axios.post("http://localhost:3000/api/v1/admin/rooms/list", formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
