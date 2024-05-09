@@ -41,18 +41,18 @@ export default {
 </script>
 
 <template>
-  <main>
-    <div class="container mx-auto">
+  <main >
+    <div class="container mx-auto ">
       <div class="navigation flex justify-between">
         <div class="logDiv flex justify-between md:block">
           <router-link
             class="m-2 text-center py-2 basis-2/5"
             :to="{ path: '/' }"
           >
-            <img src="../assets/vue.svg" alt="" />
+            <img src="../assets/logo.jpeg" alt="" width="20%"/>
           </router-link>
           <div @click="showMenu = !showMenu" class="hambur md:hidden cursor-pointer">
-            <img src="../assets/ham.png" width="80" alt="" />
+            <img src="../assets/logo.png" alt="" width="20%"/>
           </div>
         </div>
        
@@ -81,6 +81,9 @@ export default {
   </main>
 </template>
 <style lang="scss" scoped>
+main{
+  background-color: #9ad8e9;
+}
 @media screen and (max-width: 640px) {
   /* Styles for screens up to 640px width (mobile screens) */
   .navs {

@@ -1,53 +1,35 @@
 <script>
 import axios from "axios";
+
+const API_BASE_URL = "http://localhost:3000/api/v1/admin/requests";
+
 export default {
   name: "request-app",
   data() {
     return {
       requests: [],
-      intervalId: null,
     };
   },
   methods: {
-    async getHiddenCompleted() {
-      const result = await axios.get(
-        `http://localhost:3000/api/v1/admin/requests?hide=true`
-      );
-      console.log(result.data);
-      this.requests = result.data.items;
+    async fetchData(params = {}) {
+      try {
+        const response = await axios.get(API_BASE_URL, { params });
+        this.requests = response.data.items;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     },
-
     async sendSeen(id) {
-      const result = await axios.patch(
-        `http://localhost:3000/api/v1/admin/requests/${id}`
-      );
-      console.log(result.data);
-      const element = this.requests.find(e=>e.id === id);
-      element.status = 1;
+      await axios.patch(`${API_BASE_URL}/${id}`);
+      this.fetchData({ hide: true });
     },
-    async getAllRequests() {
-      const result = await axios.get(`http://localhost:3000/api/v1/admin/requests`);
-      console.log(result.data);
-      this.requests = result.data.items;
-    },
-    async getCompleted() {
-      const result = await axios.get(
-        `http://localhost:3000/api/v1/admin/requests?completed=true`
-      );
-      console.log(result.data);
-      this.requests = result.data.items;
+    async deleteRequest(id) {
+      await axios.delete(`${API_BASE_URL}/${id}`);
+      this.fetchData({ hide: true });
     },
   },
   mounted() {
-    this.getHiddenCompleted();
-
-    // this.intervalId = setInterval(() => {
-    //   this.getRequests();
-    // }, 3000);
-  },
-  beforeDestroy() {
-    // Clear the interval when the component is about to be destroyed
-    clearInterval(this.intervalId);
+    this.fetchData({ hide: true });
   },
 };
 </script>
@@ -59,13 +41,9 @@ export default {
     </div> -->
     <h1 class="text-center text-2xl font-bold my-3">Запросы</h1>
     <div class="controls">
-      <button @click="getAllRequests" type="button" class="btn btn-secondary text-white">Все</button>
-      <button @click="getCompleted" type="button" class="btn btn-success text-white">
-        Обработанные
-      </button>
-      <button @click="getHiddenCompleted" type="button" class="btn btn-danger text-white">
-        Необработанные
-      </button>
+      <button @click="fetchData({})" class="btn btn-secondary text-white">Все</button>
+      <button @click="fetchData({ completed: true })" class="btn btn-success text-white">Обработанные</button>
+      <button @click="fetchData({ hide: true })" class="btn btn-danger text-white">Необработанные</button>
     </div>
     <div class="request flex mt-10">
       <div class="name flex justify-center items-center basis-1/6">
@@ -74,9 +52,9 @@ export default {
       <div class="name flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">Фамилия</div>
       </div>
-      <div class="inn flex justify-center items-center basis-1/6">
+      <!-- <div class="inn flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">ИИН</div>
-      </div>
+      </div> -->
       <div class="number flex justify-center items-center basis-1/6">
         <div class="text-center font-bold">Номер телефона</div>
       </div>
@@ -105,11 +83,11 @@ export default {
           {{ request.lastname }}
         </div>
       </div>
-      <div class="inn flex justify-center items-center basis-1/6">
+      <!-- <div class="inn flex justify-center items-center basis-1/6">
         <div class="text-center">
           {{ request.iin }}
         </div>
-      </div>
+      </div> -->
       <div class="number flex justify-center items-center basis-1/6">
         <div class="text-center">
           {{ request.number }}
@@ -142,6 +120,12 @@ export default {
             class="text-center rounded-lg py-2 px-3 bg-red-600 text-white"
           >
             Прочитать
+          </button>
+          <button
+            @click="deleteRequest(request.id)"
+            class="text-center rounded-lg py-2 px-3 bg-red-600 text-white"
+          >
+            Удалить
           </button>
         </div>
       </div>

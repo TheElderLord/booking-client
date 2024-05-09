@@ -27,11 +27,11 @@ const search = ref("");
 const headers = ref([
   { title: "Имя", align: 'center', key: "firstname" },
   { title: "Фамилия", align: 'center', key: "lastname" },
-  { title: "ИИН", align: 'center', key: "iin" },
+  // { title: "ИИН", align: 'center', key: "iin" },
   { title: "Начало брони", align: 'center', key: "startDate" },
   { title: "Конец брони", align: 'center', key: "endDate" },
   // { title: "Комментарии",align:'end', key: "comments" },
-  { title: "Статус", align: 'center', key: "status" },
+  // { title: "Статус", align: 'center', key: "status" },
 ]);
 
 
@@ -51,38 +51,6 @@ const columns = ref(mapCurrent({ lg: 4 }, 1));
 const expanded = ref(mapCurrent({ lg: false }, true));
 
 const attributes = ref([]);
-
-//Date picker
-// const range = ref({
-//   start: new Date(2020, 0, 6),
-//   end: new Date(2020, 0, 10),
-// });
-// const dragValue = ref(null);
-// const selectDragAttribute = computed(() => ({
-//   popover: {
-//     visibility: "hover",
-//     isInteractive: false,
-//   },
-// }));
-// const range = ref({
-//   start:null,
-//   end: null
-// });
-// const mode = ref('date');
-// const rules = ref([
-//   {
-//     hours: 0,
-//     minutes: 0,
-//     seconds: 0,
-//     milliseconds: 0,
-//   },
-//   {
-//     hours: 23,
-//     minutes: 59,
-//     seconds: 59,
-//     milliseconds: 999,
-//   },
-// ]);
 
 const getInfo = async () => {
   try {
@@ -120,9 +88,6 @@ const getBookHistory = async () => {
     console.log(data);
     bookHistory.value = data.items;
     desserts.value = data.items;
-    desserts.value.map(e => {
-      e.status = e.status === 1 ? "Завершен" : "Активен"
-    })
     // console.log(desserts.value)
     // console.log(bookHistory.value);
     bookHistory.value.map((book) => {
@@ -143,8 +108,8 @@ const getBookHistory = async () => {
       // console.log(startDate,endDate)
       attributes.value.push({
         id: book.id,
-        isBook: book.status,
-        highlight: book.status === 0 ? "red" : "blue",
+        // isBook: book.status,
+        highlight: "blue",
         dates: [[startDate, endDate]],
       });
     });
@@ -210,7 +175,7 @@ const bookRoom = async (id) => {
       lastname: selectedUser.value.surname,
       start: bookingDate.value.start,
       end: bookingDate.value.end,
-      iin: selectedUser.value.iin,
+      // iin: selectedUser.value.iin,
     };
     console.log(bookbody);
     const result = await axios.post(

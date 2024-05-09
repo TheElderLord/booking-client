@@ -76,6 +76,12 @@ export default {
           >
             <div class="text-center">Список</div>
           </router-link>
+          <router-link
+            class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/scheduler' }"
+          >
+            <div class="text-center">Календарь</div>
+          </router-link>
         </div>
       </div>
     </div>

@@ -1,5 +1,78 @@
-<script src="./script/info">
+<script>
+import "vue3-carousel/dist/carousel.css";
+import axios from "axios";
+import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { createRequest, fetchRoomHistoryById } from '../utils/userRooms';
+import {IMAGE_URL} from "../utils/base";
+import { fetchRoomById } from "../utils/userRooms";
 
+export default {
+  props: ["id"],
+  components: {
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
+  },
+  setup() { },
+  data() {
+    return {
+      IMAGE_URL:IMAGE_URL,
+      info: "",
+      formToggle: false,
+
+      formObject: {
+        name: "",
+        lastname: "",
+        // iin: "",
+        number: "",
+        apartment:"",
+      },
+    };
+  },
+  methods: {
+    async getInfo() {
+      const result = await fetchRoomById(this.id);
+      this.info = result[0];
+      console.log(this.info);
+      this.info.images = this.info.images.split(",");
+      this.info.small_images = this.info.small_images.split(",");
+      // this.info.booked_date = this.info.booked_date.split("-");
+
+      var map;
+
+      DG.then(function () {
+        map = DG.map("map", {
+          center: [43.238366, 76.924189],
+          zoom: 11,
+        });
+
+        let cord = result[0].coordinates.split(",");
+
+        DG.marker(cord).addTo(map);
+      });
+    },
+    async sendRequest() {
+      try {
+        // console.log(this.formObject)
+        await createRequest(this.formObject);
+        this.formObject = {
+          name: "",
+          // iin: "",
+          number: "",
+          lastname: "",
+        };
+
+      } catch (err) {
+        console.log(err);
+      }
+      // alert(result)
+    },
+  },
+  mounted() {
+    this.getInfo();
+  },
+};
 </script>
 <template>
   <div class="mx-auto">
@@ -16,7 +89,7 @@
       </v-carousel> -->
         <carousel :items-to-show="1" class="car ">
           <slide v-for="slide in info.small_images" :key="slide.id">
-            <img :src="'http://localhost:3000/images/' + slide" alt="" class="" />
+            <img :src="IMAGE_URL + slide" alt="" class="" />
           </slide>
 
           <template #addons>
@@ -46,9 +119,9 @@
       <div class="  text-3xl font-bold text-center">
         {{ info.price }} в сутки
       </div>
-     
-     
-     
+
+
+
     </div>
     <!-- </div> -->
     <div class="infos flex my-3 ">
@@ -58,11 +131,10 @@
           <div class="but flex-1 p-4 m-2 bg-green-600 text-white text-center rounded-lg">
             Звонить
           </div>
-          <div  @click="formToggle = !formToggle"
-            class="but flex-1 p-4 m-2 bg-red-500 text-white text-center rounded-lg">
+          <div @click="formToggle = !formToggle" class="but flex-1 p-4 m-2 bg-red-500 text-white text-center rounded-lg">
             Забронировать
           </div>
-        
+
           <div class="but flex-1 p-4 m-2 bg-green-800 text-white text-center rounded-lg">
             Whatsapp
           </div>
@@ -75,9 +147,9 @@
             <div class="basis-2/6 border-2 rounded-e-lg">
               <input class="w-full p-2" v-model="formObject.lastname" type="text" name="" id="" placeholder="Фамилия" />
             </div>
-            <div class="basis-2/6 border-2 rounded-e-lg">
+            <!-- <div class="basis-2/6 border-2 rounded-e-lg">
               <input class="w-full p-2" v-model="formObject.iin" type="text" name="" id="" placeholder="ИИН" />
-            </div>
+            </div> -->
             <div class="basis-2/6 border-2 rounded-lg">
               <input class="w-full p-2" v-model="formObject.number" type="text" name="" id=""
                 placeholder="Номер телефона" />
@@ -136,7 +208,8 @@
 .sub {
   cursor: pointer;
 }
-.infos{
+
+.infos {
   background-color: rgb(248, 249, 243);
 }
 

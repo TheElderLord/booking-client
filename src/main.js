@@ -29,6 +29,8 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 
+import VueApexCharts from "vue3-apexcharts";
+
 
 import store from './store';
 
@@ -38,6 +40,7 @@ const app = createApp(App);
 
 app.component('VueDatePicker', VueDatePicker);
 
+app.use(VueApexCharts);
 
 app.use(setupCalendar, {})
 
