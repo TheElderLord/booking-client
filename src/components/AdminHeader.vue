@@ -1,5 +1,8 @@
 <script>
 export default {
+  props: {
+    currentRoute: String
+  },
   data() {
     return {
       headerText: "HeaderText",
@@ -12,15 +15,19 @@ export default {
   watch: {
     // whenever question changes, this function will run
     checkSize(newWidth, oldWidth) {
-        console.log(newWidth);
+      console.log(newWidth);
     }
   },
-
+  computed: {
+    getPath() {
+      return this.$router.currentRoute.value.fullPath;
+    }
+  },
   methods: {
     onResize() {
       console.log(this.showMenu)
       this.windowWidth = window.innerWidth;
-      if(this.windowWidth <= 640){
+      if (this.windowWidth <= 640) {
         this.showMenu = false;
       }
       else {
@@ -36,6 +43,7 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", this.onResize);
     });
+
   },
 };
 </script>
@@ -45,42 +53,50 @@ export default {
     <div class="container mx-auto">
       <div class="navigation flex justify-between">
         <div class="logDiv flex justify-between md:block">
-         
+
           <div @click="showMenu = !showMenu" class="hambur md:hidden cursor-pointer">
             <img src="../assets/ham.png" width="80" alt="" />
           </div>
         </div>
-       
+
         <div v-if="showMenu" class="navs basis-full md:flex md:float-right">
-          <router-link
-            class="nav  flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/requests' }"
-          >
-            <div class="text-center">Заявки</div>
+          <router-link class="nav  flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/requests' }">
+            <div class="text-center">
+              <h5 :class="{ 'text-red-500': getPath === '/admin/requests' }">
+                Заявки
+              </h5>
+            </div>
           </router-link>
-          <router-link
-            class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/rooms' }"
-          >
-            <div class="text-center">Квартиры</div>
+          <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/rooms' }">
+            <div class="text-center">
+              <h5 :class="{ 'text-red-500': getPath === '/admin/rooms' }">
+                Квартиры
+              </h5>
+            </div>
           </router-link>
-          <router-link
-            class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/users' }"
-          >
-            <div class="text-center">Пользователи</div>
+          <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/users' }">
+            <div class="text-center">
+              <h5 :class="{ 'text-red-500': getPath === '/admin/users' }">
+                Пользователи
+              </h5>
+            </div>
           </router-link>
-          <router-link
-            class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/list' }"
-          >
-            <div class="text-center">Список</div>
+          <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/list' }">
+            <div class="text-center">
+              <h5 :class="{ 'text-red-500': getPath === '/admin/list' }">
+                Список
+              </h5>
+            </div>
           </router-link>
-          <router-link
-            class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/scheduler' }"
-          >
-            <div class="text-center">Календарь</div>
+          <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
+            :to="{ path: '/admin/scheduler' }">
+            <h5 :class="{ 'text-red-500': getPath === '/admin/scheduler' }">
+              Календарь
+            </h5>
           </router-link>
         </div>
       </div>
@@ -88,21 +104,29 @@ export default {
   </main>
 </template>
 <style lang="scss" scoped>
-main{
-    background-color: rgb(215, 215, 215);
+main {
+  background-color: rgb(215, 215, 215);
 }
+
 @media screen and (max-width: 640px) {
+
   /* Styles for screens up to 640px width (mobile screens) */
   .navs {
     display: block;
   }
+
   .navigation {
     display: block;
   }
+
   .nav {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
+}
+
+.selected {
+  color: red !important;
 }
 </style>
 

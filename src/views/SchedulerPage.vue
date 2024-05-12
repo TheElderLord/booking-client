@@ -6,7 +6,8 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import EventContent from '../components/EventContent.vue';
 import axios from 'axios';
 
-import {  createRecord, deleteRecord, fetchBookHistory, fetchRooms } from "../utils/adminRooms";
+import {  createRecord, deleteRecord, fetchBookHistory,  } from "../utils/adminRoomsHistory";
+import { fetchRooms } from '../utils/adminRooms';
 
 const currentDate = ref(new Date()); // Assuming you have the current date
 
@@ -198,3 +199,4 @@ onUnmounted(() => {
     <v-btn @click="next()" class="m-4 float-end">Следующий месяц</v-btn>
     <DayPilotScheduler :config="config" :events="events" ref="schedulerRef" />
 </template>
+../utils/adminRoomsHistory

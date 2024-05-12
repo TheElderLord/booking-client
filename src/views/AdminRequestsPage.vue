@@ -8,6 +8,23 @@ export default {
   data() {
     return {
       requests: [],
+      search: "",
+      headers: [
+        {
+          align: "center",
+          key: "name",
+          sortable: false,
+          title: "Имя",
+        },
+        { key: "lastname", title: "Фамилия", align: "center", },
+        // { key: "iin", title: "ИИН" },
+        { key: "number", title: "Номер телефона", align: "center", },
+        { key: "day", title: "День", align: "center", },
+        { key: "time", title: "Время", align: "center", },
+        { key: "status", title: "Статус", align: "center", },
+        { key: "action", title: "Действия", align: "center", },
+      ],
+      desserts: [],
     };
   },
   methods: {
@@ -15,6 +32,7 @@ export default {
       try {
         const response = await axios.get(API_BASE_URL, { params });
         this.requests = response.data.items;
+        this.desserts = response.data.items;
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -45,102 +63,53 @@ export default {
       <button @click="fetchData({ completed: true })" class="btn btn-success text-white">Обработанные</button>
       <button @click="fetchData({ hide: true })" class="btn btn-danger text-white">Необработанные</button>
     </div>
-    <div class="request flex mt-10">
-      <div class="name flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">Имя</div>
-      </div>
-      <div class="name flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">Фамилия</div>
-      </div>
-      <!-- <div class="inn flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">ИИН</div>
-      </div> -->
-      <div class="number flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">Номер телефона</div>
-      </div>
-      <div class="number flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">День</div>
-      </div>
-      <div class="number flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">Время</div>
-      </div>
-      <div class="action flex justify-center items-center basis-1/6">
-        <div class="text-center font-bold">Действие</div>
-      </div>
+    <div class="request">
+      <v-data-table :headers="headers" :items="desserts" :search="search">
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.lastname }}</td>
+            <td>{{ item.number }}</td>
+            <td>{{ item.day }}</td>
+            <td> {{ item.time }}</td>
+            <td>
+              <button disabled v-if="item.status === 1" class="text-center rounded-lg py-2 px-3 bg-green-600 text-white">
+                Прочитано
+              </button>
+              <button @click="sendSeen(item.id)" v-if="item.status === 0"
+                class="text-center rounded-lg py-2 px-3 bg-red-600 text-white">
+                Прочитать
+              </button>
+
+            </td>
+            <td>
+              <button @click="deleteRequest(request.id)" class="text-center rounded-lg py-2 px-3 bg-red-600 text-white">
+                Удалить
+              </button>
+            </td>
+
+          </tr>
+        </template>
+      </v-data-table>
     </div>
-    <div
-      class="request flex my-2"
-      v-for="request in requests"
-      :key="request.id"
-    >
-      <div class="name flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.name }}
-        </div>
-      </div>
-      <div class="name flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.lastname }}
-        </div>
-      </div>
-      <!-- <div class="inn flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.iin }}
-        </div>
-      </div> -->
-      <div class="number flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.number }}
-        </div>
-      </div>
-      <div class="day flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.day }}
-        </div>
-      </div>
-      <div class="time flex justify-center items-center basis-1/6">
-        <div class="text-center">
-          {{ request.time }}
-        </div>
-      </div>
-      <div class="action flex justify-center items-center basis-1/6">
-        <div
-          class="action text-center text-sm basis-1/5 mx-2 flex justify-center items-center"
-        >
-          <button
-            disabled
-            v-if="request.status === 1"
-            class="text-center rounded-lg py-2 px-3 bg-green-600 text-white"
-          >
-            Прочитано
-          </button>
-          <button
-            @click="sendSeen(request.id)"
-            v-if="request.status === 0"
-            class="text-center rounded-lg py-2 px-3 bg-red-600 text-white"
-          >
-            Прочитать
-          </button>
-          <button
-            @click="deleteRequest(request.id)"
-            class="text-center rounded-lg py-2 px-3 bg-red-600 text-white"
-          >
-            Удалить
-          </button>
-        </div>
-      </div>
-    </div>
+
   </div>
 </template>
 
 <style lang="scss" scoped>
-.request{
+tr,
+td {
+  text-align: center;
+}
+
+.request {
   margin: 1rem;
   padding: 1rem;
   border-radius: 1rem;
   border-top: 1px solid black;
-  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
+
 .backBut {
   button {
     background-color: cadetblue;
@@ -148,6 +117,7 @@ export default {
     border-radius: 0.5rem;
   }
 }
+
 .controls {
   button {
     margin: 1rem;

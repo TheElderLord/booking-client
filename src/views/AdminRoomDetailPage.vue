@@ -282,7 +282,7 @@ onMounted(() => {
           </div>
           <select v-model="selectedUser" class="form-select my-2 w-1/2" aria-label="Пользователи">
             <option selected disabled value="0">Выберите пользователя</option>
-            <option v-for="user in users" :key="user.id" :value="user">{{user.name }} {{user.surname}}</option>
+            <option v-for="user in users" :key="user.id" :value="user">{{ user.name }} {{ user.surname }}</option>
 
           </select>
         </div>

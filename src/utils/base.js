@@ -8,7 +8,7 @@ export const API_ADMIN_URL = `http://${host}:${port}/api/v1/admin`;
 
 export const API_ADMIN_ROOMS_HISTORY_URL = `${API_ADMIN_URL}/rooms/bookHistory`;
 export const API_ADMIN_ROOMS_URL = `${API_ADMIN_URL}/rooms/list`;
-export const API_ADMIN_BOOK_ROOMS_URL = `${API_ADMIN_URL}/rooms/book`;
+export const API_ADMIN_USERS_URL = `${API_ADMIN_URL}/users`;
 
 
 
