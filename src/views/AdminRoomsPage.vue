@@ -92,10 +92,10 @@ export default {
         </div>
       </div> -->
 
-      <div v-for="room in rooms" :key="room.id" class="room flex  rounded-lg m-2 p-4 ">
+      <div v-for="room in rooms" :key="room.id" class="room flex  rounded-lg m-2 p-2 ">
         <router-link class="flex w-4/5" :to="{ name: 'roomInfo', params: { id: room.id } }">
           <div class="title text-center text-sm flex justify-center items-center basis-full">
-            <div class="text-center">{{ room.title }}</div>
+            <div class="text-center font-bold text-xl">{{ room.short_name }}</div>
           </div>
           <div class="location text-center text-sm flex justify-center items-center basis-full">
             <div class="text-center">{{ room.location }}</div>

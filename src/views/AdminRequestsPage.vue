@@ -64,6 +64,11 @@ export default {
       <button @click="fetchData({ hide: true })" class="btn btn-danger text-white">Необработанные</button>
     </div>
     <div class="request">
+      <v-card flat title="">
+        <template v-slot:text>
+          <v-text-field v-model="search" label="Искать" prepend-inner-icon="mdi-magnify" single-line variant="outlined"
+            hide-details></v-text-field>
+        </template>
       <v-data-table :headers="headers" :items="desserts" :search="search">
         <template v-slot:item="{ item }">
           <tr>
@@ -91,6 +96,7 @@ export default {
           </tr>
         </template>
       </v-data-table>
+      </v-card>
     </div>
 
   </div>

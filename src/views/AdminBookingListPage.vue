@@ -76,6 +76,7 @@ export default {
         //     }
         // }
     },
+    
     mounted() {
         this.fetchData();
     },
@@ -99,6 +100,11 @@ export default {
                 </div>
             </div>
             <div class="list-items">
+                <v-card flat title="">
+                    <template v-slot:text>
+                      <v-text-field v-model="search" label="Искать" prepend-inner-icon="mdi-magnify" single-line variant="outlined"
+                        hide-details></v-text-field>
+                    </template>
                 <v-data-table :headers="headers" :items="desserts" :search="search">
                     <template v-slot:item="{ item }">
                         <tr>
@@ -126,6 +132,7 @@ export default {
                         </tr>
                     </template>
                 </v-data-table>
+            </v-card>
                 <!-- <div class="list-item">
                     <div class="user-name">Имя</div>
                     <div class="user-lastname">Фамилия</div>

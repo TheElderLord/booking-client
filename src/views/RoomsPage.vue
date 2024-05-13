@@ -263,8 +263,8 @@ export default {
 
     <div class="room-container">
 
-      <div class="items flex flex-wrap flex-row m-2 p-2">
-        <div v-for="room in rooms" :key="room.id" class="roomItem flex  bg-white rounded-xl m-2 p-2 shadow-xl">
+      <div v-if="rooms" class="items flex flex-wrap flex-row m-2 p-2">
+        <div  v-for="room in rooms" :key="room.id" class="roomItem flex  bg-white rounded-xl m-2 p-2 shadow-xl">
 
 
           <div class="itemImg basis-2/6">
@@ -309,6 +309,9 @@ export default {
 
 
         </div>
+      </div>
+      <div v-else class="text-center">
+          <h1>Ничего не найдено</h1>
       </div>
 
     </div>
