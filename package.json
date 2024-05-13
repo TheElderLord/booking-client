@@ -12,6 +12,7 @@
     "@mdi/font": "^7.4.47",
     "@popperjs/core": "^2.11.8",
     "@vuepic/vue-datepicker": "^7.4.0",
+    "2gis-maps": "^3.7.4",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.3",
     "daypilot-pro-vue": "https://npm.daypilot.org/daypilot-pro-vue/trial/2024.1.5867.tar.gz",

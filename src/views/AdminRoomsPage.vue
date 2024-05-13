@@ -1,8 +1,8 @@
-<script >
+<script>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import axios from "axios";
-import { deleteMethod, fetchRooms, postRoom } from '../utils/adminRooms';
+import { deleteMethod, fetchRooms, postRoom } from "../utils/adminRooms";
 export default {
   name: "rooms-page",
   components: {
@@ -12,14 +12,11 @@ export default {
     return {
       rooms: [],
 
-      
       createToggle: false,
     };
   },
   methods: {
     async getRooms() {
-
-
       this.rooms = await fetchRooms();
 
       //   this.rooms.map((e) => {
@@ -28,34 +25,29 @@ export default {
       //   });
     },
 
-
-
-    
     async deleteRoom(id) {
       try {
         const result = deleteMethod(id);
-        if(result===true){
-          this.getRooms();
-        }
+
+        this.getRooms();
+
         // console.log(result)
       } catch (err) {
         console.log(err);
       }
     },
-   
   },
   mounted() {
     this.getRooms();
   },
 };
-
 </script>
 
 <template>
   <div class="cont">
     <div class="rooms mx-auto">
       <div class="actionButtons">
-        <router-link class="createLink p-4" :to="{path:'/admin/create'}">
+        <router-link class="createLink" :to="{ path: '/admin/create' }">
           Создать
         </router-link>
       </div>
@@ -92,15 +84,30 @@ export default {
         </div>
       </div> -->
 
-      <div v-for="room in rooms" :key="room.id" class="room flex  rounded-lg m-2 p-2 ">
-        <router-link class="flex w-4/5" :to="{ name: 'roomInfo', params: { id: room.id } }">
-          <div class="title text-center text-sm flex justify-center items-center basis-full">
-            <div class="text-center font-bold text-xl">{{ room.short_name }}</div>
+      <div
+        v-for="room in rooms"
+        :key="room.id"
+        class="room flex rounded-lg m-2 p-2"
+      >
+        <router-link
+          class="flex w-4/5"
+          :to="{ name: 'roomInfo', params: { id: room.id } }"
+        >
+          <div
+            class="title text-center text-sm flex justify-center items-center basis-full"
+          >
+            <div class="text-center font-bold text-xl">
+              {{ room.short_name }}
+            </div>
           </div>
-          <div class="location text-center text-sm flex justify-center items-center basis-full">
+          <div
+            class="location text-center text-sm flex justify-center items-center basis-full"
+          >
             <div class="text-center">{{ room.location }}</div>
           </div>
-          <div class="status text-center text-sm flex justify-center items-center basis-1/3">
+          <div
+            class="status text-center text-sm flex justify-center items-center basis-1/3"
+          >
             <!-- <div class="text-center">
               {{ room.status === "free" ? "Свободен" : "Забронирован" }}
             </div> -->
@@ -112,9 +119,6 @@ export default {
           </button>
         </div>
       </div>
-
-      
-     
     </div>
   </div>
 </template>
@@ -139,27 +143,22 @@ export default {
   background-color: white;
 }
 
-
-  .delete-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 15px;
-    background-color: #ff6262;
-    color: #fff;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-  }
-
-  
-
-
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 15px;
+  background-color: #ff6262;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
 
 .actionButtons {
-  button {
-    margin: 0.5rem;
-    padding: 1rem 1rem 1rem 1rem;
+  margin-top: 1rem;
+  a {
+    padding: 1rem;
     background-color: var(--primary-color);
     border-radius: 1rem;
   }

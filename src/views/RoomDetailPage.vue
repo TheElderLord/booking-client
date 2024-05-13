@@ -2,8 +2,8 @@
 import "vue3-carousel/dist/carousel.css";
 import axios from "axios";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import { createRequest, fetchRoomHistoryById } from '../utils/userRooms';
-import {IMAGE_URL} from "../utils/base";
+import { createRequest, fetchRoomHistoryById } from "../utils/userRooms";
+import { IMAGE_URL } from "../utils/base";
 import { fetchRoomById } from "../utils/userRooms";
 
 export default {
@@ -14,10 +14,10 @@ export default {
     Pagination,
     Navigation,
   },
-  setup() { },
+  setup() {},
   data() {
     return {
-      IMAGE_URL:IMAGE_URL,
+      IMAGE_URL: IMAGE_URL,
       info: "",
       formToggle: false,
 
@@ -26,7 +26,7 @@ export default {
         lastname: "",
         // iin: "",
         number: "",
-        apartment:"",
+        apartment: "",
       },
     };
   },
@@ -35,22 +35,23 @@ export default {
       const result = await fetchRoomById(this.id);
       this.info = result[0];
       console.log(this.info);
-      this.info.images = this.info.images.split(",");
+      // this.info.images = this.info.images.split(",");
       this.info.small_images = this.info.small_images.split(",");
       // this.info.booked_date = this.info.booked_date.split("-");
 
       var map;
+      if (result[0].coordinates) {
+        DG.then(function () {
+          map = DG.map("map", {
+            center: [43.238366, 76.924189],
+            zoom: 11,
+          });
 
-      DG.then(function () {
-        map = DG.map("map", {
-          center: [43.238366, 76.924189],
-          zoom: 11,
+          let cord = result[0].coordinates.split(",");
+
+          DG.marker(cord).addTo(map);
         });
-
-        let cord = result[0].coordinates.split(",");
-
-        DG.marker(cord).addTo(map);
-      });
+      }
     },
     async sendRequest() {
       try {
@@ -62,7 +63,6 @@ export default {
           number: "",
           lastname: "",
         };
-
       } catch (err) {
         console.log(err);
       }
@@ -78,7 +78,7 @@ export default {
   <div class="mx-auto">
     <div class="top p-2">
       <div class="title text-center text-2xl m-3">{{ info.title }}</div>
-      <div class="carousel mx-0   mt-10">
+      <div class="carousel mx-0 mt-10">
         <!-- <v-carousel height="500" progress="primary" hide-delimiter-background="false" >
         <v-carousel-item
           v-for="(item, i) in info.images"
@@ -87,7 +87,7 @@ export default {
         >
         </v-carousel-item>
       </v-carousel> -->
-        <carousel :items-to-show="1" class="car ">
+        <carousel :items-to-show="1" class="car">
           <slide v-for="slide in info.small_images" :key="slide.id">
             <img :src="IMAGE_URL + slide" alt="" class="" />
           </slide>
@@ -100,7 +100,7 @@ export default {
       </div>
     </div>
 
-    <div class="info  grid grid-cols-2 ">
+    <div class="info grid grid-cols-2">
       <div class="rent m-2 p-3">Адрес:{{ info.location }}</div>
       <div class="rent m-2 p-3">Комнат:{{ info.amount }}</div>
       <div class="rent m-2 p-3">
@@ -112,58 +112,82 @@ export default {
       <div class="rent m-2 p-3">Количество кроватей:{{ info.bed_num }}</div>
       <div class="rent m-2 p-3">Количество людей:{{ info.people_num }}</div>
       <div class="rent m-2 p-3">Условия:{{ info.conditions }}</div>
-
-
     </div>
-    <div class="  text-xl font-bold">
-      <div class="  text-3xl font-bold text-center">
-        {{ info.price }} в сутки
-      </div>
-
-
-
+    <div class="text-xl font-bold">
+      <div class="text-3xl font-bold text-center">{{ info.price }} в сутки</div>
     </div>
     <!-- </div> -->
-    <div class="infos flex my-3 ">
+    <div class="infos flex my-3">
       <div class="mainInfo basis-3/5 m-2 p-5">
         <h5>{{ info.description }}</h5>
         <div class="buttons flex m-2 p-3">
-          <div class="but flex-1 p-4 m-2 bg-green-600 text-white text-center rounded-lg">
+          <div
+            class="but flex-1 p-4 m-2 bg-green-600 text-white text-center rounded-lg"
+          >
             Звонить
           </div>
-          <div @click="formToggle = !formToggle" class="but flex-1 p-4 m-2 bg-red-500 text-white text-center rounded-lg">
+          <div
+            @click="formToggle = !formToggle"
+            class="but flex-1 p-4 m-2 bg-red-500 text-white text-center rounded-lg"
+          >
             Забронировать
           </div>
 
-          <div class="but flex-1 p-4 m-2 bg-green-800 text-white text-center rounded-lg">
+          <div
+            class="but flex-1 p-4 m-2 bg-green-800 text-white text-center rounded-lg"
+          >
             Whatsapp
           </div>
         </div>
         <div v-if="formToggle" class="format">
           <div class="inps flex my-5">
             <div class="basis-2/6 border-2 rounded-e-lg">
-              <input class="w-full p-2" v-model="formObject.name" type="text" name="" id="" placeholder="Имя" />
+              <input
+                class="w-full p-2"
+                v-model="formObject.name"
+                type="text"
+                name=""
+                id=""
+                placeholder="Имя"
+              />
             </div>
             <div class="basis-2/6 border-2 rounded-e-lg">
-              <input class="w-full p-2" v-model="formObject.lastname" type="text" name="" id="" placeholder="Фамилия" />
+              <input
+                class="w-full p-2"
+                v-model="formObject.lastname"
+                type="text"
+                name=""
+                id=""
+                placeholder="Фамилия"
+              />
             </div>
             <!-- <div class="basis-2/6 border-2 rounded-e-lg">
               <input class="w-full p-2" v-model="formObject.iin" type="text" name="" id="" placeholder="ИИН" />
             </div> -->
             <div class="basis-2/6 border-2 rounded-lg">
-              <input class="w-full p-2" v-model="formObject.number" type="text" name="" id=""
-                placeholder="Номер телефона" />
+              <input
+                class="w-full p-2"
+                v-model="formObject.number"
+                type="text"
+                name=""
+                id=""
+                placeholder="Номер телефона"
+              />
             </div>
           </div>
-          <div @click="sendRequest()"
-            class="sub text-center font-bold text-xl mt-5 bg-white shadow-lg rounded-lg w-64 mx-auto py-5 border-2">
+          <div
+            @click="sendRequest()"
+            class="sub text-center font-bold text-xl mt-5 bg-white shadow-lg rounded-lg w-64 mx-auto py-5 border-2"
+          >
             Отправить
           </div>
         </div>
       </div>
 
       <div class="contactInfo basis-2/5 mx-auto">
-        <div id="map" style="width: 500px; height: 400px"></div>
+        <div v-if="info.coordinates">
+          <div id="map" style="width: 500px; height: 400px"></div>
+        </div>
       </div>
     </div>
   </div>

@@ -23,6 +23,7 @@ export default {
         { key: "time", title: "Время", align: "center", },
         { key: "status", title: "Статус", align: "center", },
         { key: "action", title: "Действия", align: "center", },
+        { key: "is_black", title: "Черный список", align: "center", },
       ],
       desserts: [],
     };
@@ -39,11 +40,11 @@ export default {
     },
     async sendSeen(id) {
       await axios.patch(`${API_BASE_URL}/${id}`);
-      this.fetchData({ hide: true });
+      this.fetchData();
     },
     async deleteRequest(id) {
       await axios.delete(`${API_BASE_URL}/${id}`);
-      this.fetchData({ hide: true });
+      this.fetchData();
     },
   },
   mounted() {
@@ -88,10 +89,11 @@ export default {
 
             </td>
             <td>
-              <button @click="deleteRequest(request.id)" class="text-center rounded-lg py-2 px-3 bg-red-600 text-white">
+              <button @click="deleteRequest(item.id)" class="text-center rounded-lg py-2 px-3 bg-red-600 text-white">
                 Удалить
               </button>
             </td>
+            <td> {{ item.is_black === 0 ? "Нет":"Да" }}</td>
 
           </tr>
         </template>

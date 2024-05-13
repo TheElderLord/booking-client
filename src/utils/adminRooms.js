@@ -23,6 +23,21 @@ export const postRoom = async (formData) => {
     return false;
   }
 };
+export const putRoom = async (id,body) => {
+  try {
+    console.log(id,body)
+    const result =  await axios.put(`${API_ADMIN_ROOMS_URL}/${id}`, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(result)
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 export const deleteMethod = async (id) => {
   try {
