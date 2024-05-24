@@ -34,10 +34,12 @@ isAdmin() {
 </script>
 
 <template>
-  <div class="">
+  <div class="header">
     <header v-if="!isAdmin()" class=" shadow-lg rounded-lg">
       <Header />
     </header>
+  </div>
+  <div class="body-container">
     <div v-if="isAdminRoute()" class="sideBar">
       <AdminHeaderVue/>
     </div>
@@ -45,12 +47,18 @@ isAdmin() {
       <router-view />
     </div>
   </div>
+    
+  
 </template>
 
 <style lang="scss" scoped>
 $primary: var(--primary-color);
 * {
-  overflow: hidden;
+  
+}
+.header{
+
+  position: sticky;
 }
 
 .adminSideBar {

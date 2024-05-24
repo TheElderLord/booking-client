@@ -135,7 +135,7 @@ const createBook = async (value, id) => {
     };
     // console.log(bookbody);
     try {
-        await createRecord(bookbody);
+        await createRecord(id,bookbody);
     } catch (err) {
         console.log(err);
     }

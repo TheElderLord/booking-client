@@ -1,5 +1,9 @@
-const host = import.meta.env.VITE_SERVER_APP_HOST;
-const port = import.meta.env.VITE_SERVER_APP_PORT;
+const host =  import.meta.env.VITE_SERVER_APP_HOST;
+const port =  import.meta.env.VITE_SERVER_APP_PORT;
+const nodeEnv = import.meta.env.MODE;
+
+
+console.log(host,port,nodeEnv);
 
 export const IMAGE_URL = `http://${host}:${port}/images/`;
 
@@ -9,6 +13,7 @@ export const API_ADMIN_URL = `http://${host}:${port}/api/v1/admin`;
 export const API_ADMIN_ROOMS_HISTORY_URL = `${API_ADMIN_URL}/rooms/bookHistory`;
 export const API_ADMIN_ROOMS_URL = `${API_ADMIN_URL}/rooms/list`;
 export const API_ADMIN_USERS_URL = `${API_ADMIN_URL}/users`;
+export const API_ADMIN_REQUEST_URL = `${API_ADMIN_URL}/requests`;
 
 
 

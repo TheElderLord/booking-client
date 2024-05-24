@@ -42,17 +42,17 @@ export default {
 
 <template>
   <main >
-    <div class="container mx-auto ">
+    <div class="container mx-auto h-full">
       <div class="navigation flex justify-between">
         <div class="logDiv flex justify-between md:block">
           <router-link
-            class="m-2 text-center py-2 basis-2/5"
+            class="m-2 text-center py-2 float-left"
             :to="{ path: '/' }"
           >
-            <img src="../assets/logo.jpeg" alt="" width="20%"/>
+            <img src="../assets/logo.jpeg" alt="" id="logo" />
           </router-link>
-          <div @click="showMenu = !showMenu" class="hambur md:hidden cursor-pointer">
-            <img src="../assets/logo.png" alt="" width="20%"/>
+          <div @click="showMenu = !showMenu" class="hambur md:hidden cursor-pointer py-4">
+            <img src="../assets/ham.png" class="float-right" alt="" id="ham"/>
           </div>
         </div>
        
@@ -81,20 +81,43 @@ export default {
   </main>
 </template>
 <style lang="scss" scoped>
+#logo{
+  width: 20%;
+}
+#ham{
+  width: 40%;
+}
+.nav{
+  font-size: 22px;
+}
 main{
   background-color: #9ad8e9;
 }
 @media screen and (max-width: 640px) {
+  
+  #logo {
+    width: 50%;
+  }
+  #ham{
+    width: 50%;
+  }
+  
   /* Styles for screens up to 640px width (mobile screens) */
   .navs {
     display: block;
   }
   .navigation {
+    padding: .5rem;
     display: block;
   }
   .nav {
+    font-size: 28px;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    a{
+      text-decoration: none;
+      
+    }
   }
 }
 </style>

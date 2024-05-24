@@ -1,6 +1,5 @@
 <script>
 import "vue3-carousel/dist/carousel.css";
-import axios from "axios";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { createRequest, fetchRoomHistoryById } from "../utils/userRooms";
 import { IMAGE_URL } from "../utils/base";

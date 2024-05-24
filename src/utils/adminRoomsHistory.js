@@ -19,7 +19,19 @@ export const fetchBookHistory = async (queryParams) => {
     console.log(error);
   }
 };
-export const createRecord = async (bookbody) => {
+export const fetchBookHistoryById = async (id) => {
+  let result;
+  try {
+    
+      result = await axios.get(`${API_ADMIN_ROOMS_HISTORY_URL}/${id}`);
+    
+
+    return result.data.items;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const createRecord = async (id,bookbody) => {
   try {
     await axios.post(`${API_ADMIN_ROOMS_HISTORY_URL}/${id}`, bookbody);
     return true;

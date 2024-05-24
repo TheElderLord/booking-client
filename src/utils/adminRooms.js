@@ -9,6 +9,14 @@ export const fetchRooms = async () => {
     console.log(error);
   }
 };
+export const fetchRoomById = async (id) => {
+  try {
+    const result = await axios.get(`${API_ADMIN_ROOMS_URL}/${id}`);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const postRoom = async (formData) => {
   try {

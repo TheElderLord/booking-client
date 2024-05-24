@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
+import { deleteReq, fetchRequests, seenPatch } from "../utils/adminRequests";
 
-const API_BASE_URL = "http://localhost:3000/api/v1/admin/requests";
 
 export default {
   name: "request-app",
@@ -31,19 +31,19 @@ export default {
   methods: {
     async fetchData(params = {}) {
       try {
-        const response = await axios.get(API_BASE_URL, { params });
-        this.requests = response.data.items;
-        this.desserts = response.data.items;
+        const response = await fetchRequests(params);
+        this.requests = response;
+        this.desserts = response;
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     },
     async sendSeen(id) {
-      await axios.patch(`${API_BASE_URL}/${id}`);
+      await seenPatch(id);
       this.fetchData();
     },
     async deleteRequest(id) {
-      await axios.delete(`${API_BASE_URL}/${id}`);
+      await deleteReq(id);
       this.fetchData();
     },
   },

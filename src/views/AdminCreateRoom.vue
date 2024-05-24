@@ -74,35 +74,36 @@ export default {
       });
     });
     },
-    async addMarker() {
-      const marker = {
-        lat: this.coords[this.coords.length-1].getLatLng().lat,
-        lng: this.coords[this.coords.length-1].getLatLng().lng,
-        name: this.name,
-        surname: this.surname,
-        email: this.email,
-        num: this.num,
-        user_id: 1,
-        location_name: this.location,
-        status:"Todo",
-        description: this.description,
-        subcategory_id: this.data[0].id,
-        answers: this.answers.toString()
-      };
-      console.log(marker);
+    // async addMarker() {
+    //   const marker = {
+    //     lat: this.coords[this.coords.length-1].getLatLng().lat,
+    //     lng: this.coords[this.coords.length-1].getLatLng().lng,
+    //     name: this.name,
+    //     surname: this.surname,
+    //     email: this.email,
+    //     num: this.num,
+    //     user_id: 1,
+    //     location_name: this.location,
+    //     status:"Todo",
+    //     description: this.description,
+    //     subcategory_id: this.data[0].id,
+    //     answers: this.answers.toString()
+    //   };
+    //   console.log(marker);
       
-      await axios.post('http://localhost:3000/create', marker);
-      this.coords = [];
-        this.name = '';
-        this.surname = '';
-        this.email = '';
-        this.num = '';
-        this.description = '';
-        this.location = '';
-        this.coords.forEach(marker => {
-        this.map.removeLayer(marker);
-     });
-    },
+    //   // await axios.post('http://localhost:3000/create', marker);
+    //   await postRoom(marker)
+    //   this.coords = [];
+    //     this.name = '';
+    //     this.surname = '';
+    //     this.email = '';
+    //     this.num = '';
+    //     this.description = '';
+    //     this.location = '';
+    //     this.coords.forEach(marker => {
+    //     this.map.removeLayer(marker);
+    //  });
+    // },
     deleteImage(index) {
       this.imageUrls.splice(index, 1);
     },

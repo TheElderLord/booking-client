@@ -7,7 +7,10 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useRoute } from "vue-router";
 import DG from "2gis-maps";
-import { putRoom } from "../utils/adminRooms";
+import { fetchRoomById, putRoom } from "../utils/adminRooms";
+import { fetchUsers } from "../utils/adminUsers";
+import { createRecord, fetchBookHistoryById } from "../utils/adminRoomsHistory";
+import { IMAGE_URL } from "../utils/base";
 
 // const components = {
 //   Carousel,
@@ -58,9 +61,7 @@ const attributes = ref([]);
 
 const getInfo = async () => {
   try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/v1/admin/rooms/list/${props.id}`
-    );
+    const { data } = await fetchRoomById(props.id);
     console.log(data);
     info.value = data.items[0];
     info.value.small_images = info.value.small_images.split(",");
@@ -113,8 +114,8 @@ const getInfo = async () => {
 
 const getUsers = async () => {
   try {
-    const result = await axios.get("http://localhost:3000/api/v1/admin/users");
-    const resultObject = result.data.items;
+    const result = await fetchUsers();
+    const resultObject = result;
     users.value = resultObject;
     console.log(users.value);
   } catch (err) {
@@ -124,12 +125,10 @@ const getUsers = async () => {
 
 const getBookHistory = async () => {
   try {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/v1/admin/rooms/bookHistory/${props.id}`
-    );
-    console.log(data);
-    bookHistory.value = data.items;
-    desserts.value = data.items;
+    const { data } = await fetchBookHistoryById(props.id);
+    // console.log(data);
+    bookHistory.value = data;
+    desserts.value = data;
     // console.log(desserts.value)
     // console.log(bookHistory.value);
     bookHistory.value.map((book) => {
@@ -186,24 +185,24 @@ const initDate = async () => {
   date.value = [startDate, endDate];
 };
 
-const setFree = async (id) => {
-  try {
-    const result = await axios.put(
-      `http://localhost:3000/api/v1/admin/rooms/book/${id}`
-    );
-    // rooms.value.find((e) => e.id == id).status = "free";
-    // rooms.value.find((e) => e.id == id).booked_date = "";
-    // console.log(result);
-    const el = attributes.value.find((e) => e.isBook === 0);
-    // console.log(el);
+// const setFree = async (id) => {
+//   try {
+//     const result = await axios.put(
+//       `http://localhost:3000/api/v1/admin/rooms/book/${id}`
+//     );
+//     // rooms.value.find((e) => e.id == id).status = "free";
+//     // rooms.value.find((e) => e.id == id).booked_date = "";
+//     // console.log(result);
+//     const el = attributes.value.find((e) => e.isBook === 0);
+//     // console.log(el);
 
-    info.value.status = 1;
+//     info.value.status = 1;
 
-    el.highlight = "blue";
-  } catch (err) {
-    console.log(err);
-  }
-};
+//     el.highlight = "blue";
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 const bookRoom = async (id) => {
   if (!bookingDate.value) {
@@ -220,10 +219,7 @@ const bookRoom = async (id) => {
       // iin: selectedUser.value.iin,
     };
     console.log(bookbody);
-    const result = await axios.post(
-      `http://localhost:3000/api/v1/admin/rooms/book/${id}`,
-      bookbody
-    );
+    const result = await createRecord(id,bookbody);
 
     const startDateParts = bookbody.start.split(".");
     const endDateParts = bookbody.end.split(".");
@@ -299,7 +295,7 @@ onMounted(() => {
         >
           <slide v-for="slide in info.small_images" :key="slide.id">
             <img
-              :src="'http://localhost:3000/images/' + slide"
+              :src="IMAGE_URL + slide"
               alt=""
               class=""
             />
