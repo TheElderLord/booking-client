@@ -1,5 +1,8 @@
 <script >
+import axios from 'axios';
 import { mapActions } from "vuex";
+import {authUser} from "../utils/authRequest"
+
 export default {
   name: "Admin",
 
@@ -12,22 +15,21 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["login"]),
-    async logIn() {
+  
+    async login() {
       // Simulate login logic (replace with your actual login logic)
-
-      let loginSuccess;
-      if (this.username == "admin" && this.password == "admin") {
-        loginSuccess = true;
-        localStorage.setItem("authToken",12313)
-      } else {
-        this.error = true;
-        return;
+      try{
+        const body= {
+          username:this.username,
+          password:this.password
+        }
+        const result = await authUser(body)
+        this.$router.push({ path: "/admin/rooms" });
+      }catch(err){
+        console.log(err)
       }
 
-      // Dispatch the mutation to update the state
-      await this.login();
-      this.$router.push({ path: "/admin/rooms" });
+     
     },
   },
 };
@@ -55,7 +57,7 @@ export default {
         </p>
       </div>
       <div class="submitBut">
-        <button @click="logIn()" class="">Подтвердить</button>
+        <button @click="login()" class="">Подтвердить</button>
       </div>
     </div>
   </div>
@@ -68,12 +70,18 @@ export default {
 }
 .main {
   width: 100%;
-  height: 100vh;
-  background-color: var(--primary-color);
+  height: 80vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .loginDiv {
+  width: 100%;
+  
   background-color: var(--secondary-color);
   border: 2px black solid;
+ 
 }
 
 input[type="text"] {
@@ -99,5 +107,10 @@ input[type="password"] {
     padding: 1rem;
     box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.394);
   }
+}
+@media screen and (max-width: 640px) {
+ .loginDiv{
+  width: 300px;
+ }
 }
 </style>

@@ -1,4 +1,6 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
+import  {authUser} from "../utils/authRequest"
 
 export default createStore({
   state: {
@@ -17,6 +19,7 @@ export default createStore({
     login({ commit }) {
       // Perform authentication logic
       // For example, set isAuthenticated to true after successful login
+      
       commit('SET_AUTHENTICATED', true);
     },
     logout({ commit }) {
