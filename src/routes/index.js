@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requiresAuth) &&
     !isAuthenticated
   ) {
-    next("/admin");
+    next("/admin/*");
   } else {
     next();
   }

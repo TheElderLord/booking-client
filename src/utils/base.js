@@ -14,7 +14,7 @@ export const API_ADMIN_ROOMS_HISTORY_URL = `${API_ADMIN_URL}/rooms/bookHistory`;
 export const API_ADMIN_ROOMS_URL = `${API_ADMIN_URL}/rooms/list`;
 export const API_ADMIN_USERS_URL = `${API_ADMIN_URL}/users`;
 export const API_ADMIN_REQUEST_URL = `${API_ADMIN_URL}/requests`;
-export const API_ADMIN_LOGIN_URL = `${API_ADMIN_URL}/login`;
+export const API_ADMIN_LOGIN_URL = `${API_BASE_URL}/login`;
 
 
 

@@ -24,6 +24,7 @@ export default {
           password:this.password
         }
         const result = await authUser(body)
+        if(result === true)
         this.$router.push({ path: "/admin/rooms" });
       }catch(err){
         console.log(err)
