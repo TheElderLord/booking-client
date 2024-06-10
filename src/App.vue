@@ -34,13 +34,13 @@ isAdmin() {
 </script>
 
 <template>
-  <div class="header">
+  <!-- <div class="header">
     <header v-if="!isAdmin()" class=" shadow-lg rounded-lg">
       <Header />
     </header>
-  </div>
+  </div> -->
   <div class="body-container">
-    <div v-if="isAdminRoute()" class="sideBar">
+    <div class="sideBar">
       <AdminHeaderVue/>
     </div>
     <div class="main">

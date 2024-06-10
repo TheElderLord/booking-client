@@ -61,40 +61,40 @@ export default {
 
         <div v-if="showMenu" class="navs basis-full md:flex md:float-right">
           <router-link class="nav  flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/requests' }">
+            :to="{ path: '/requests' }">
             <div class="text-center">
-              <h5 :class="{ 'text-red-500': getPath === '/admin/requests' }">
+              <h5 :class="{ 'text-red-500': getPath === '/requests' }">
                 Заявки
               </h5>
             </div>
           </router-link>
           <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/rooms' }">
+            :to="{ path: '/rooms' }">
             <div class="text-center">
-              <h5 :class="{ 'text-red-500': getPath === '/admin/rooms' }">
+              <h5 :class="{ 'text-red-500': getPath === '/rooms' }">
                 Квартиры
               </h5>
             </div>
           </router-link>
           <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/users' }">
+            :to="{ path: '/users' }">
             <div class="text-center">
-              <h5 :class="{ 'text-red-500': getPath === '/admin/users' }">
+              <h5 :class="{ 'text-red-500': getPath === '/users' }">
                 Пользователи
               </h5>
             </div>
           </router-link>
           <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/list' }">
+            :to="{ path: '/list' }">
             <div class="text-center">
-              <h5 :class="{ 'text-red-500': getPath === '/admin/list' }">
+              <h5 :class="{ 'text-red-500': getPath === '/list' }">
                 Список
               </h5>
             </div>
           </router-link>
           <router-link class="nav flex justify-center items-center flex-1 m-1 p-4 text-center text-lg text-black"
-            :to="{ path: '/admin/scheduler' }">
-            <h5 :class="{ 'text-red-500': getPath === '/admin/scheduler' }">
+            :to="{ path: '/scheduler' }">
+            <h5 :class="{ 'text-red-500': getPath === '/scheduler' }">
               Календарь
             </h5>
           </router-link>

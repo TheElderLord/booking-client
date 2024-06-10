@@ -19,30 +19,20 @@ import store from "../store/index";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+  
     {
       path: "/",
-      name: "Main",
-      component:  RoomsPage,
-    },
-    {
-      path: "/info",
-      name: "info",
-      component: RoomDetailPage,
-      props: (route) => ({ id: route.query.id }),
-    },
-    {
-      path: "/admin",
       name: "admin",
       component: Admin,
     },
     {
-      path: "/admin/rooms",
+      path: "/rooms",
       name: "rooms",
       component: Rooms,
       meta: { requiresAuth: true, props: false },
     },
     {
-      path: "/admin/rooms/:id",
+      path: "/rooms/:id",
       name: "roomInfo",
       component: RoomAdmin,
       meta: {
@@ -52,31 +42,31 @@ const router = createRouter({
     },
 
     {
-      path: "/admin/requests",
+      path: "/requests",
       name: "request",
       component: Requests,
       meta: { requiresAuth: true },
     },
     {
-      path: "/admin/users",
+      path: "/users",
       name: "users",
       component: Users,
       meta: { requiresAuth: true },
     },
     {
-      path: "/admin/list",
+      path: "/list",
       name: "list",
       component: BookingListPage,
       meta: { requiresAuth: true },
     },
     {
-      path: "/admin/scheduler",
+      path: "/scheduler",
       name: "schedule",
       component: SchedulerPage,
       meta: { requiresAuth: true },
     },
     {
-      path: "/admin/create",
+      path: "/create",
       name: "create room",
       component: AdminCreateRoom,
       meta: { requiresAuth: true },
@@ -90,7 +80,7 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requiresAuth) &&
     !isAuthenticated
   ) {
-    next("/admin/*");
+    next("/*");
   } else {
     next();
   }
