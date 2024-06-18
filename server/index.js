@@ -3,11 +3,16 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-app.use(express.static("dist"));
+
+// Absolute path to the dist directory outside the project folder
+const distPath = path.join(__dirname, "..", "dist");
+
+// Serve static files from the dist directory
+app.use(express.static(distPath));
 
 // Handle SPA fallback after static and API routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist", "index.html"));
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
 const appPort = 4000;
