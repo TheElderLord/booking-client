@@ -21,7 +21,7 @@ const router = createRouter({
   routes: [
   
     {
-      path: "/",
+      path: "/login",
       name: "admin",
       component: Admin,
     },
@@ -80,7 +80,7 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requiresAuth) &&
     !isAuthenticated
   ) {
-    next("/*");
+    next("/login");
   } else {
     next();
   }

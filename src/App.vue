@@ -8,7 +8,6 @@ export default {
   name: "App",
   components: {
     Header,
-    
     AdminHeaderVue
   },
 
@@ -19,11 +18,11 @@ export default {
   },
   methods: {
     isAdminRoute() {
-  const check = /^\/admin(?:\/[^\/]+)*$/.test(this.$route.path) && (this.$route.path !== '/admin' && this.$route.path!=='/admin/');
+  const check = /^\/login(?:\/[^\/]+)*$/.test(this.$route.path) && (this.$route.path !== '/admin' && this.$route.path!=='/admin/');
   return check;
 },
 isAdmin() {
-  const check = /^\/admin(?:\/[^\/]+)*$/.test(this.$route.path);
+  const check = /^\/login(?:\/[^\/]+)*$/.test(this.$route.path);
   return check;
 },
 
@@ -40,7 +39,7 @@ isAdmin() {
     </header>
   </div> -->
   <div class="body-container">
-    <div class="sideBar">
+    <div v-if="!isAdmin()" class="sideBar">
       <AdminHeaderVue/>
     </div>
     <div class="main">
