@@ -39,7 +39,7 @@ isAdmin() {
     </header>
   </div> -->
   <div class="body-container">
-    <div v-if="!isAdmin()" class="sideBar">
+    <div class="sideBar">
       <AdminHeaderVue/>
     </div>
     <div class="main">
