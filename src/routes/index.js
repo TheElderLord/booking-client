@@ -14,7 +14,9 @@ import AdminCreateRoom from "../views/AdminCreateRoom.vue";
 
 import SchedulerPage from "../views/SchedulerPage.vue";
 
-import store from "../store/index";
+import TestView from "../views/TestView.vue";
+
+// import store from "../store/index";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,6 +26,11 @@ const router = createRouter({
       path: "/",
       name: "admin",
       component: Admin,
+    },
+    {
+      path: "/test",
+      name: "test",
+      component: TestView,
     },
     {
       path: "/rooms",

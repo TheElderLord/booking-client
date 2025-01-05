@@ -47,7 +47,7 @@ export default {
   <div class="cont">
     <div class="rooms mx-auto">
       <div class="actionButtons">
-        <router-link class="createLink" :to="{ path: '/admin/create' }">
+        <router-link class="createLink" :to="{ path: '/create' }">
           Создать
         </router-link>
       </div>
